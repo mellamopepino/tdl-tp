@@ -2,8 +2,4 @@
 
 ## Link al drive del informe
 
-[drive](https://docs.google.com/document/d/1KlxsgQ07t6YDZeL8m6sQMiXLsOKNSP0K1yHBScMgwEI/edit?ts=5eefd2b3)
-
-## Recursos para investigar
-
-[go by example](https://github.com/golang/example)
+[drive](https://drive.google.com/drive/folders/10_XNeuhfd09Z_KXzu0QuNHU-Bm3cChuR)
