@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// Dead simple producer consumer example
+// https://medium.com/better-programming/hands-on-go-concurrency-the-producer-consumer-pattern-c42aab4e3bd2
+
 func main() {
 	var done = make(chan bool)
 	var msgs = make(chan int)
