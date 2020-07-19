@@ -32,7 +32,7 @@ func share(reads <-chan readOp, writes <-chan writeOp, prints <-chan printOp) {
 				resources[read.key] -= read.amount
 				read.resp <- true
 				resources["houses"]++
-				fmt.Printf("Usando 15 de madera. Total: %v\n", resources[read.key])
+				fmt.Printf("Usando %v de madera. Total: %v\n", read.amount, resources[read.key])
 			} else {
 				read.resp <- false
 			}
@@ -61,10 +61,6 @@ var messages = [][]int{
 	},
 }
 
-const producerCount int = 4
-const consumerCount int = 3
-const builderCount int = 2
-
 // Send data from messages to channel
 func produce(link chan<- int, id int, wg *sync.WaitGroup) {
 	defer wg.Done()
@@ -74,11 +70,11 @@ func produce(link chan<- int, id int, wg *sync.WaitGroup) {
 }
 
 // Read data from channel and send it to the stateful channel
-func consume(link <-chan int, wg *sync.WaitGroup, writes chan<- writeOp) {
+func consume(link <-chan int, wg *sync.WaitGroup, writes chan<- writeOp, resource string) {
 	defer wg.Done()
 	for amount := range link {
 		write := writeOp{
-			key: "wood",
+			key: resource,
 			val: amount}
 		writes <- write
 	}
@@ -86,12 +82,12 @@ func consume(link <-chan int, wg *sync.WaitGroup, writes chan<- writeOp) {
 
 // Read from the stateful channel and build houses
 // If there are no resources left and all consumers have finished, it stops
-func build(wg *sync.WaitGroup, reads chan<- readOp, producersFinished *bool) {
+func build(wg *sync.WaitGroup, reads chan<- readOp, producersFinished *bool, resource string, amount int) {
 	defer wg.Done()
 	for {
 		read := readOp{
-			key:    "wood",
-			amount: 15,
+			key:    resource,
+			amount: amount,
 			resp:   make(chan bool)}
 		reads <- read
 		built := <-read.resp
@@ -106,6 +102,10 @@ func build(wg *sync.WaitGroup, reads chan<- readOp, producersFinished *bool) {
 }
 
 func main() {
+	const producerCount int = 4
+	const consumerCount int = 3
+	const builderCount int = 2
+
 	reads := make(chan readOp)
 	writes := make(chan writeOp)
 	prints := make(chan printOp)
@@ -126,12 +126,12 @@ func main() {
 	}
 
 	for i := 0; i < consumerCount; i++ {
-		go consume(link, wc, writes)
+		go consume(link, wc, writes, "wood")
 	}
 
 	producersFinished := false
 	for i := 0; i < builderCount; i++ {
-		go build(wb, reads, &producersFinished)
+		go build(wb, reads, &producersFinished, "wood", 15)
 	}
 
 	wp.Wait()
