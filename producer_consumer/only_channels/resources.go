@@ -1,93 +1,101 @@
 package main
 
-type readResource struct {
-	key  string
-	resp chan int
+type Resources map[string]int
+
+type addResources struct {
+	material  string
+	amount int
+	ok chan bool
 }
 
-type writeResource struct {
-	key  string
-	val  int
-	resp chan bool
+type buildResources struct {
+	material  string
+	build string
+	amount  int
+	ok chan bool
 }
 
-type getResource struct {
-	resp chan map[string]int
+type getResources struct {
+	resp chan Resources
 }
 
-type Resources struct {
-	reads chan readResource
-	writes chan writeResource
-	gets chan getResource
+type ResourcesHandler struct {
+	addOp chan addResources
+	buildOp chan buildResources
+	getOp chan getResources
 }
 
-func MakeResources() Resources {
-	return Resources{
-		reads: make(chan readResource),
-		writes: make(chan writeResource),
-		gets: make(chan getResource),
+
+func MakeResourcesHandler() ResourcesHandler {
+	return ResourcesHandler{
+		addOp: make(chan addResources),
+		buildOp: make(chan buildResources),
+		getOp: make(chan getResources),
 	}
 }
 
-func (r Resources) Listen() {
+func (r ResourcesHandler) Listen() {
 	go func() {
-		var resources = make(map[string]int)
+		var resources = make(Resources)
 		for {
 			select {
-			case read := <-r.reads:
-				read.resp <- resources[read.key]
-			case write := <-r.writes:
-				resources[write.key] = write.val
-				write.resp <- true
-			case get := <-r.gets:
-				get.resp <- resources
+			case a := <-r.addOp:
+				resources[a.material] += a.amount
+				a.ok <- true
+			case b := <-r.buildOp:
+				if(resources[b.material] - b.amount >= 0) {
+					resources[b.material] -= b.amount
+					resources[b.build]++
+					b.ok <- true
+				} else {
+					b.ok <- false
+				}
+			case g := <-r.getOp:
+				g.resp <- resources
 			}
 		}
 	}()
 }
 
-func (r Resources) Add(key string, amount int) (int, bool) {
-	read := readResource{
-		key: key,
-		resp: make(chan int),
+func (r ResourcesHandler) Add(material string, amount int) (Resources, bool) {
+	addOp := addResources{
+		material: material,
+		amount: amount,
+		ok: make(chan bool),
 	}
-	r.reads <- read
-	resource := <-read.resp
+	r.addOp <- addOp
 
-	write := writeResource{
-		key: key,
-		val: resource + amount,
-		resp: make(chan bool),
-	}
-	r.writes <- write
-
-	return resource + amount, <-write.resp
+	/*
+	* No podemos hacer `return r.GetAll(), <-addOp.ok`
+	* Porque el `r.GetAll()` va a intentar mandar un mensaje
+	* a el handler a través del channel `getOp`.
+	* Esto mientras la función `Listen` del handler está
+	* bloqueada esperando que alguien tome el mensaje que mandó
+	* por el channel que para nosotros es `addOp.ok`.
+	* Entonces el `Listen` no puede tomar el request de get hasta
+	* que se desbloquee, pero solo se va a desbloquear cuando
+	* hagamos `<-addOp.ok`. Que, esto último, se ejecutaría después
+	* de llamar al `r.GetAll()`. Cuestión muere todo. :)
+	*/
+	ok := <-addOp.ok
+	return r.GetAll(), ok
 }
 
-func (r Resources) Use(key string, amount int) (int, bool) {
-	read := readResource{
-		key: key,
-		resp: make(chan int),
+func (r ResourcesHandler) Build(build string, material string, amount int) (Resources, bool) {
+	buildOp := buildResources{
+		build: build,
+		material: material,
+		amount: amount,
+		ok: make(chan bool),
 	}
-	r.reads <- read
-	resource := <-read.resp
+	r.buildOp <- buildOp
 
-	if((resource - amount) < 0){
-		return resource, false
-	}
-
-	write := writeResource{
-		key: key,
-		val: resource - amount,
-		resp: make(chan bool),
-	}
-	r.writes <- write
-
-	return resource - amount, <-write.resp
+	ok := <-buildOp.ok
+	return r.GetAll(), ok
 }
 
-func (r Resources) GetAll() map[string]int {
-	get := getResource{ resp: make(chan map[string]int) }
-	r.gets <- get
-	return <-get.resp
+func (r ResourcesHandler) GetAll() Resources {
+	getOp := getResources{ resp: make(chan Resources) }
+	r.getOp <- getOp
+	return <-getOp.resp
 }
