@@ -1,0 +1,62 @@
+# Introducción a Go
+Teoría de Lenguajes
+Summary: Presentación del lenguaje Go para la materia Teoría de Lenguajes
+
+Joaquín Casal
+
+Delfina García Villamor
+
+Lucía Kasman
+
+Franco Schischlo
+
+////////////////////////////////////////////////// Fin del header
+
+## Esta es la primer slide
+
+Acá podemos escribir texto
+
+- Podemos
+- Tener
+- Bullets
+
+Código:
+
+        hello := 1
+        bye := "bye"
+
+Formatos (markdown):
+
+_cursiva_  
+**negrita**  
+Links: Visit [the Go home page](https://golang.org/).
+
+////////////////////////////////////////////////// Fin de la diapositiva
+
+## Segunda diapositiva: comandos (.code)
+
+Sin start omit y end omit
+
+.code examples/hello.go
+
+Con start omit y end omit
+
+.code examples/hello.go /START OMIT/,/END OMIT/
+
+## Tercera diapositiva: comandos (.play)
+
+.play examples/hello.go /START OMIT/,/END OMIT/
+
+## Cuarta diapositiva: comandos (.image)
+
+Gopher vs actual gopher
+
+.image images/gopher.png
+
+.image images/actual-gopher.jpg
+
+## Quinta diapositiva: comandos (.image)
+
+Gopher gif
+
+.image images/gopher.gif
