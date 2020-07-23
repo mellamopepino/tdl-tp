@@ -31,7 +31,10 @@ Franco Schischlo
 
 ## Caso de estudio
 
+Mercadolibre? Creo que garpa que hablemos de Meli porque es algo local que todo el mundo conoce
 
+.link https://go.dev/solutions/mercadolibre/
+.link https://github.com/mercadolibre/golang-tutorial-public
 
 //////////////////////////////////////////////////
 
@@ -39,20 +42,28 @@ Franco Schischlo
 
 //////////////////////////////////////////////////
 
-## Cuando usar Go
-
-Go es una buena opción cuando alguno de estos aspectos resulta importante:
+Vimos que Go es bueno en cuanto a:
 
 - Manejo de concurrencia
 - Escalabilidad
 - Performance
-- Otras cosas piolas
+- Portabilidad
+- Simplicidad
+- Networking
+
+Entonces...
 
 //////////////////////////////////////////////////
 
-## Cuando no usar Go
+##
 
-Go **no** es una buena opción si se necesita:
+**Cuando usar Go**
+
+- Servicios distribuidos
+- Aplicaciones standalone
+- Servicios web
+
+**Cuando no usar Go**
 
 - Aplicaciones con interfaz gráfica
 - Aplicaciones orientadas a objetos
