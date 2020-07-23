@@ -29,6 +29,36 @@ Franco Schischlo
 
 //////////////////////////////////////////////////
 
+## Nacimiento y motivación
+
+Desarrollado en Google y lanzado en 2009.
+
+Buscaban alivianar problemas comunes en su desarrollo.
+
+Como los **builds** lentos y la falta de **escalabilidad**.
+
+//////////////////////////////////////////////////
+
+## Nacimiento y motivación
+
+Y entre compilación y compilación...
+
+.image images/my-codes-compiling.png
+
+//////////////////////////////////////////////////
+
+## Nacimiento y motivación
+
+Llegaron a un lenguaje:
+- Rápido de buildear.
+- Escalable.
+- Con sintaxis clara.
+- Y features modernas (ej: concurrencia).
+
+.image images/gopher-sixpack.png
+
+//////////////////////////////////////////////////
+
 ## Caso de estudio
 
 Mercadolibre? Creo que garpa que hablemos de Meli porque es algo local que todo el mundo conoce
