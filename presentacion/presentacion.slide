@@ -10,7 +10,66 @@ Lucía Kasman
 
 Franco Schischlo
 
-////////////////////////////////////////////////// Fin del header
+//////////////////////////////////////////////////
+
+## Características generales
+
+- Lenguaje de propósito general
+- **Paradigma**: Estructurado y procedural
+- **Modelo**: Imperativo
+- **Tipado**: estático e inferido (duck typing)
+- Compilado
+- Tiene garbage collector
+- TDAs:
+
+        - Abierto para el mismo paquete, cerrado para paquetes distintos
+        - Con estado
+        - Empaquetado y no empaquetado
+- Pasaje por valor y por referencia (dependiendo el tipo de dato)
+
+//////////////////////////////////////////////////
+
+## Caso de estudio
+
+
+
+//////////////////////////////////////////////////
+
+## Conclusiones
+
+//////////////////////////////////////////////////
+
+## Cuando usar Go
+
+Go es una buena opción cuando alguno de estos aspectos resulta importante:
+
+- Manejo de concurrencia
+- Escalabilidad
+- Performance
+- Otras cosas piolas
+
+//////////////////////////////////////////////////
+
+## Cuando no usar Go
+
+Go **no** es una buena opción si se necesita:
+
+- Aplicaciones con interfaz gráfica
+- Aplicaciones orientadas a objetos
+- Otras cosas que Go no se banca
+
+//////////////////////////////////////////////////
+
+## Referencias
+
+.link golang.org
+.link golang.org/doc
+.link blog.golang.org
+.link talks.golang.org
+.link tour.golang.org
+.link github.com/golang/go/wiki
+
+//////////////////////////////////////////////////
 
 ## Esta es la primer slide
 
@@ -31,7 +90,7 @@ _cursiva_
 **negrita**  
 Links: Visit [the Go home page](https://golang.org/).
 
-////////////////////////////////////////////////// Fin de la diapositiva
+//////////////////////////////////////////////////
 
 ## Segunda diapositiva: comandos (.code)
 
