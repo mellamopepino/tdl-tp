@@ -59,6 +59,167 @@ Llegaron a un lenguaje:
 
 //////////////////////////////////////////////////
 
+## Características Core
+
+Se destaca por:
+- **Simpleza**: Sintaxis fácil de aprender y features necesarios.
+- **Concurrencia**: Uso de _goroutines_ y _channels_.
+- **Velocidad de compilación y ejecución**
+- **Biblioteca estándar**: Extensa y completa (bien documentada)
+- **Multiplataforma**
+
+entre otros...
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+Simple puede ser expresivo...
+
+.image images/simplicity.png 400 700
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+Un poco de sintaxis y tipos de datos...
+
+.image images/technic.png
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+Set de keywords:
+
+.image images/keywords.png
+
+(Dato de color: son 25, C tiene 32, y C++ 95….)
+
+Set de operadores y puntuación:
+
+.image images/operators.png
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+ **Tipos de datos básicos:**
+
+- int  int8  int16  int32  int64
+- uint uint8 uint16 uint32 uint64 uintptr
+- float32 float64
+- complex64 complex128
+- string
+- bool
+- byte // alias de uint8
+- rune // alias de int32 - unicode code point
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Tipos de datos (continuación):**
+
+Otros:
+
+- struct
+- interface
+- chan (channels)
+- array (longitud estática)
+- slice (longitud dinámica)
+- map
+
+entre otros...
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Inicialización de Variables:**
+
+Las variables, si no se les define un valor al declararlas, se las inicializa con un valor (a esto se lo llama _Zero_ _Value_ _Initialization_)
+
+- *0* para enteras
+- *0.0* para punto flotante
+- *false* para bool
+- *""* para string
+- *nil* para interfaces, slices, channels, maps, punteros y funciones.
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Interfaces:**
+
+.image images/interface.png 400 500
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+- Una interfaz es una colección de firmas de métodos, es decir, son declaraciones de métodos sin cuerpo, cuyo comportamiento está dado por quien los implemente (de forma implicita)
+- Extensamente usadas en la standard library.
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Concurrencia:**
+
+.image images/goroutines.png
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Goroutines:**
+
+- Son hilos verdes administrados por Go runtime
+- Muy livianas (alrededor de los 2kb, y en caso de ser necesario, el stack incrementa/decrece de forma dinámica)
+- Funcionan de forma cooperativa (cooperative multitasking)
+
+Formas de sincronizacion:
+- Channels
+- sync.WaitGroup
+
+//////////////////////////////////////////////////
+
+## Características Core
+
+**Channels:**
+
+- Es un tipo de dato que nos permite enviar y recibir datos a través de él.
+- Son bloqueantes, salvo si se les pasa una capacidad al momento de crearlos (en cuyo caso se bloquean al estar llenos, o vacios)
+
+_Creación_:
+
+	                llamada := make(chan string)
+
+_Envío_:
+
+	                llamada <- "Hola, buen dia"
+
+_Recepción_:
+
+	                saludo, ok = <- llamada
+
+(el ok se utiliza para chequear el estado del canal)
+
+_Cerrar channel_:
+
+	                close(llamada)
+
+//////////////////////////////////////////////////
+
+## Ejemplo basico
+
+Un poco de código:
+
+//.code examples/integrador.go /START OMIT/,/END OMIT/
+.play examples/integrador.go /START OMIT/,/END OMIT/
+//////////////////////////////////////////////////
+
+
 ## Caso de estudio
 
 Mercadolibre? Creo que garpa que hablemos de Meli porque es algo local que todo el mundo conoce
