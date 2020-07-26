@@ -294,6 +294,50 @@ Links: Visit [the Go home page](https://golang.org/).
 
 //////////////////////////////////////////////////
 
+## Estadísticas 
+
+Comparación entre Go y Java para calcular un factorial:
+
+.image images/comparison-factorial.png
+
+
+//////////////////////////////////////////////////
+
+## Para un programa que lee un archivo de 64k, corre un hash SHA-256 1000 veces:
+
+.image images/n1000r300.png
+
+Con 300 requests, podemos observar que Go es más veloz que los otros lenguajes.
+
+//////////////////////////////////////////////////
+
+## Según la encuesta de StackOverflow 2019:
+
+La gente que programa en Go recibe el 3er mejor salario en todo el mundo:
+
+.image images/highest-salary-global.png
+
+
+Total de encuestados: 88,883 desarrolladores de 179 países.
+
+//////////////////////////////////////////////////
+
+## Según la encuesta de StackOverflow 2019:
+
+Go es el 8vo lenguaje de programación más amado:
+
+.image images/loved.png
+
+//////////////////////////////////////////////////
+
+## Según la encuesta de StackOverflow 2019:
+
+Go es 3er lenguaje más interesante para aprender:
+
+.image images/wanted.png
+
+//////////////////////////////////////////////////
+
 ## Segunda diapositiva: comandos (.code)
 
 Sin start omit y end omit
