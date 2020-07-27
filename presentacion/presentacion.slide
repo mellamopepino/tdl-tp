@@ -1,5 +1,14 @@
 # Introducción a Go
 Teoría de Lenguajes
+Summary: Presentación del lenguaje Go para la materia Teoría de Lenguajes
+
+Joaquín Casal
+
+Delfina García Villamor
+
+Lucía Kasman
+
+Franco Schischlo
 
 //////////////////////////////////////////////////
 
@@ -240,65 +249,39 @@ Si bien Groovy tiene a su favor que corre sobre la JVM de Java, Mercadolibre ten
 
 ## ¿Por qué usan Go en Mercadolibre?
 
-- Simplicidad
+**Simplicidad**
 
 La sintaxis limpia y expresiva de Go permite a desarrolladores menos experimentados aprender rápidamente el lenguaje.
 
-- Performance
+**Performance**
 
 Cada segundo afecta a la experiencia de usuario.
 
-- Escalabilidad
+**Escalabilidad**
 
-- Eficiencia
+Tiempo de compilación, test y despliegue rápido.
+
+**Eficiencia**
 
 Go hace un eficiente uso de recursos, lo cual permite mantener el mismo servicio pero con menos servidores que otras tecnologías.
+
+**Bonus track**: Mercadolibre usa **Docker** (otra herramienta hecha en Go) para desplegar sus servicios escritos en Go.
 
 //////////////////////////////////////////////////
 
 ## Otros proyectos que usan Go
 
+- Docker
 - Twitch
 - Netflix
+- Twitter
 - Dropbox
-- Etc.
+- Uber
+- PayPal
 
 \...y todos los de esta lista!
 
 .link https://github.com/golang/go/wiki/GoUsers
-
-//////////////////////////////////////////////////
-
-## Conclusiones
-
-//////////////////////////////////////////////////
-
-Vimos que Go es bueno en cuanto a:
-
-- Manejo de concurrencia
-- Escalabilidad
-- Performance
-- Portabilidad
-- Simplicidad
-- Networking
-
-Entonces...
-
-//////////////////////////////////////////////////
-
-##
-
-**Cuando usar Go**
-
-- Servicios distribuidos
-- Aplicaciones standalone
-- Servicios web
-
-**Cuando no usar Go**
-
-- Aplicaciones con interfaz gráfica
-- Aplicaciones orientadas a objetos
-- Otras cosas que Go no se banca
 
 //////////////////////////////////////////////////
 
@@ -343,6 +326,39 @@ Go es el quinto lenguaje de programación más amado:
 Go es 3er lenguaje más interesante para aprender:
 
 .image images/wanted.png
+
+//////////////////////////////////////////////////
+
+## Conclusiones
+
+//////////////////////////////////////////////////
+
+Vimos que Go es bueno en cuanto a:
+
+- Manejo de concurrencia
+- Escalabilidad
+- Performance
+- Portabilidad
+- Simplicidad
+- Networking
+
+Entonces...
+
+//////////////////////////////////////////////////
+
+##
+
+**Cuando usar Go**
+
+- Servicios distribuidos
+- Aplicaciones standalone
+- Servicios web
+
+**Cuando no usar Go**
+
+- Aplicaciones con interfaz gráfica
+- Aplicaciones orientadas a objetos
+- Otras cosas que Go no se banca
 
 //////////////////////////////////////////////////
 
