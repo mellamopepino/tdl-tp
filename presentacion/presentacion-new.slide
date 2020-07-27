@@ -1,0 +1,376 @@
+Introducción a Go
+Teoría de Lenguajes
+
+##################################################
+
+* Características generales
+
+- Lenguaje de propósito general
+- *Paradigma*: Estructurado y procedural
+- *Modelo*: Imperativo
+- *Tipado*: estático e inferido (duck typing)
+- Compilado
+- Tiene garbage collector
+- TDAs:
+
+        - Abierto para el mismo paquete, cerrado para paquetes distintos
+        - Con estado
+        - Empaquetado y no empaquetado
+- Pasaje por valor y por referencia (dependiendo el tipo de dato)
+
+##################################################
+
+* Nacimiento y motivación
+
+Desarrollado en Google y lanzado en 2009.
+
+Buscaban alivianar problemas comunes en su desarrollo.
+
+Como los *builds* lentos y la falta de *escalabilidad*.
+
+##################################################
+
+* Nacimiento y motivación
+
+Y entre compilación y compilación...
+
+.image images/my-codes-compiling.png
+
+##################################################
+
+* Nacimiento y motivación
+
+Llegaron a un lenguaje:
+- Rápido de buildear.
+- Escalable.
+- Con sintaxis clara.
+- Y features modernas (ej: concurrencia).
+
+.image images/gopher-sixpack.png
+
+##################################################
+
+* Características Core
+
+Se destaca por:
+- *Simpleza*: Sintaxis fácil de aprender y features necesarios.
+- *Concurrencia**: Uso de _goroutines_ y _channels_.
+- *Garbage* *collector*
+- *Velocidad* *de* *compilación* *y* *ejecución*
+- *Biblioteca* *estándar*: Extensa y completa (bien documentada)
+- *Multiplataforma*
+
+entre otros...
+
+##################################################
+
+* Características Core
+
+Simple puede ser expresivo...
+
+.image images/simplicity.png 400 700
+
+##################################################
+
+* Características Core
+
+Un poco de sintaxis y tipos de datos...
+
+.image images/technic.png
+
+##################################################
+
+* Características Core
+
+Set de keywords:
+
+.image images/keywords.png
+
+(Dato de color: son 25, C tiene 32, y C++ 95….)
+
+Set de operadores y puntuación:
+
+.image images/operators.png
+
+##################################################
+
+* Características Core
+
+*Tipos* *de* *datos* *básicos*:
+
+- int  int8  int16  int32  int64
+- uint uint8 uint16 uint32 uint64 uintptr
+- float32 float64
+- complex64 complex128
+- string
+- bool
+- byte // alias de uint8
+- rune // alias de int32 - unicode code point
+
+##################################################
+
+* Características Core
+
+*Tipos* *de* *datos* *(continuación)*:
+
+Otros:
+
+- struct
+- interface
+- chan (channels)
+- array (longitud estática)
+- slice (longitud dinámica)
+- map
+
+entre otros...
+##################################################
+
+* Características Core
+
+*Inicialización* *de* *variables*:
+
+Las variables, si no se les define un valor al declararlas, se las inicializa con un valor (a esto se lo llama _Zero_ _Value_ _Initialization_)
+
+- *0* para enteras
+- *0.0* para punto flotante
+- *false* para bool
+- *""* para string
+- *nil* para interfaces, slices, channels, maps, punteros y funciones.
+
+##################################################
+
+* Características Core
+
+*Interfaces:*
+
+.image images/interface.png 400 500
+
+##################################################
+
+* Características Core
+
+- Una interfaz es una colección de firmas de métodos, es decir, son declaraciones de métodos sin cuerpo, cuyo comportamiento está dado por quien los implemente (de forma implicita)
+- Extensamente usadas en la standard library.
+
+##################################################
+
+* Características Core
+
+*Concurrencia:*
+
+.image images/goroutines.png
+
+##################################################
+
+* Características Core
+
+*Goroutines:*
+
+- Son hilos verdes administrados por Go runtime
+- Muy livianas (alrededor de los 2kb, y en caso de ser necesario, el stack incrementa/decrece de forma dinámica)
+- Funcionan de forma cooperativa (cooperative multitasking)
+
+Formas de sincronizacion/comunicación:
+
+- channels
+- sync.WaitGroup
+
+##################################################
+
+* Características Core
+
+*Channels:*
+
+- Es un tipo de dato que nos permite enviar y recibir datos a través de él.
+- Son bloqueantes, salvo si se les pasa una capacidad al momento de crearlos (en cuyo caso se bloquean al estar llenos, o vacios)
+
+_Creación_:
+
+	                llamada := make(chan string)
+
+_Envío_:
+
+	                llamada <- "Hola, buen dia"
+
+_Recepción_: (el ok se utiliza para chequear el estado del canal)
+
+	                saludo, ok = <- llamada
+
+_Cerrar_ _channel_:
+
+	                close(llamada)
+
+##################################################
+
+* Ejemplo basico
+
+Un poco de código:
+
+##.code examples/integrador.go /START OMIT/,/END OMIT/
+.play examples/integrador.go /START OMIT/,/END OMIT/
+
+##################################################
+
+* Ejemplo basico 2
+
+Un poco de código:
+
+.play examples/waitgroup.go /START OMIT/,/END OMIT/
+
+##################################################
+
+* Caso de estudio: Mercadolibre
+
+Empresa de comercio electrónico líder de América Latina, con presencia en 18 países.
+Además de la plataforma de compra y venta, tiene otros servicios (entre ellos, Mercado Pago y Mercado Envíos).
+
+- 11 millones de vendedores y 44 millones de compradores activos
+- 12 compras por segundo
+- 6000 búsquedas por segundo
+- 274 millones productos listados (a Q4 2019)
+- Más de 3 millones de transacciones totales de Mercado Pago por día
+
+.image images/gomeli.jpg
+
+##################################################
+
+* Un poco de historia...
+
+En el 2015, las APIs de Mercadolibre estaban escritas en Groovy utilizando el framework Grails.
+
+Si bien Groovy tiene a su favor que corre sobre la JVM de Java, Mercadolibre tenía algunos problemas.
+
+- Lenguaje dinámico -> Requiere desarrolladores con experiencia
+- Tiempos de tests lentos
+- Tiempos de despliegue lentos
+
+##################################################
+
+* ¿Por qué usan Go en Mercadolibre?
+
+*Simplicidad*
+
+La sintaxis limpia y expresiva de Go permite a desarrolladores menos experimentados aprender rápidamente el lenguaje.
+
+*Performance*
+
+Cada segundo afecta a la experiencia de usuario.
+
+*Escalabilidad*
+
+Tiempo de compilación, test y despliegue rápido.
+
+*Eficiencia*
+
+Go hace un eficiente uso de recursos, lo cual permite mantener el mismo servicio pero con menos servidores que otras tecnologías.
+
+*Bonus* *track*: Mercadolibre usa *Docker* (otra herramienta hecha en Go) para desplegar sus servicios escritos en Go.
+
+##################################################
+
+* Otros proyectos que usan Go
+
+- Docker
+- Twitch
+- Netflix
+- Twitter
+- Dropbox
+- Uber
+- PayPal
+
+\...y todos los de esta lista!
+
+.link https://github.com/golang/go/wiki/GoUsers
+
+##################################################
+
+* Estadísticas 
+
+Comparación entre Go y Java para calcular un factorial:
+
+.image images/comparison-factorial.png
+
+
+##################################################
+
+* Para un programa que lee un archivo de 64k, corre un hash SHA-256 1000 veces:
+
+.image images/n1000r300.png
+
+Con 300 requests, podemos observar que Go es más veloz que los otros lenguajes.
+
+##################################################
+
+* Según la encuesta de StackOverflow 2019:
+
+La gente que programa en Go recibe el tercer mejor salario en todo el mundo:
+
+.image images/highest-salary-global.png
+
+
+Total de encuestados: 88,883 desarrolladores de 179 países.
+
+##################################################
+
+* Según la encuesta de StackOverflow 2019:
+
+Go es el quinto lenguaje de programación más amado:
+
+.image images/loved.png
+
+##################################################
+
+* Según la encuesta de StackOverflow 2019:
+
+Go es 3er lenguaje más interesante para aprender:
+
+.image images/wanted.png
+
+##################################################
+
+* Conclusiones
+
+##################################################
+
+*  
+
+Vimos que Go es bueno en cuanto a:
+
+- Manejo de concurrencia
+- Escalabilidad
+- Performance
+- Portabilidad
+- Simplicidad
+- Networking
+
+Entonces...
+
+##################################################
+
+*  
+
+*Cuando* *usar* *Go*
+
+- Servicios distribuidos
+- Aplicaciones standalone
+- Servicios web
+
+*Cuando* *no* *usar* *Go*
+
+- Aplicaciones con interfaz gráfica
+- Aplicaciones orientadas a objetos
+- Otras cosas que Go no se banca
+
+##################################################
+
+* Referencias
+
+.link golang.org
+.link golang.org/doc
+.link blog.golang.org
+.link talks.golang.org
+.link tour.golang.org
+.link github.com/golang/go/wiki
+.link https://go.dev/solutions/mercadolibre/
+.link https://github.com/mercadolibre/golang-tutorial-public
+.link https://ideas.mercadolibre.com/ar/noticias/historia-de-mercado-libre/
