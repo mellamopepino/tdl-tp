@@ -64,6 +64,7 @@ Llegaron a un lenguaje:
 Se destaca por:
 - **Simpleza**: Sintaxis fácil de aprender y features necesarios.
 - **Concurrencia**: Uso de _goroutines_ y _channels_.
+- **Garbage collector**
 - **Velocidad de compilación y ejecución**
 - **Biblioteca estándar**: Extensa y completa (bien documentada)
 - **Multiplataforma**
@@ -178,8 +179,8 @@ Las variables, si no se les define un valor al declararlas, se las inicializa co
 - Muy livianas (alrededor de los 2kb, y en caso de ser necesario, el stack incrementa/decrece de forma dinámica)
 - Funcionan de forma cooperativa (cooperative multitasking)
 
-Formas de sincronizacion:
-- Channels
+Formas de sincronizacion/comunicación:
+- channels
 - sync.WaitGroup
 
 //////////////////////////////////////////////////
@@ -217,6 +218,14 @@ Un poco de código:
 
 //.code examples/integrador.go /START OMIT/,/END OMIT/
 .play examples/integrador.go /START OMIT/,/END OMIT/
+
+//////////////////////////////////////////////////
+
+## Ejemplo basico 2
+
+Un poco de código:
+
+.play examples/waitgroup.go /START OMIT/,/END OMIT/
 
 //////////////////////////////////////////////////
 
