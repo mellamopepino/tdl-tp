@@ -1,5 +1,9 @@
 # Present tool
 
+## Presentación online
+
+https://talks.godoc.org/github.com/mellamopepino/tdl-tp/presentacion/presentacion-new.slide
+
 ## Estructura de carpetas
 
 El archivo fuente de la presentación es `presentacion.slide`. Es un archivo de texto plano, el formato es bastante sencillo, parecido a markdown. En la presentación hay varios ejemplos de lo que se puede hacer en la presentación.
