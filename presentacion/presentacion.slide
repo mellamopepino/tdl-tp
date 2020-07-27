@@ -1,14 +1,5 @@
 # Introducción a Go
 Teoría de Lenguajes
-Summary: Presentación del lenguaje Go para la materia Teoría de Lenguajes
-
-Joaquín Casal
-
-Delfina García Villamor
-
-Lucía Kasman
-
-Franco Schischlo
 
 //////////////////////////////////////////////////
 
@@ -217,15 +208,64 @@ Un poco de código:
 
 //.code examples/integrador.go /START OMIT/,/END OMIT/
 .play examples/integrador.go /START OMIT/,/END OMIT/
+
 //////////////////////////////////////////////////
 
+## Caso de estudio: Mercadolibre
 
-## Caso de estudio
+Empresa de comercio electrónico líder de América Latina, con presencia en 18 países.
+Además de la plataforma de compra y venta, tiene otros servicios (entre ellos, Mercado Pago y Mercado Envíos).
 
-Mercadolibre? Creo que garpa que hablemos de Meli porque es algo local que todo el mundo conoce
+- 11 millones de vendedores y 44 millones de compradores activos
+- 12 compras por segundo
+- 6000 búsquedas por segundo
+- 274 millones productos listados (a Q4 2019)
+- Más de 3 millones de transacciones totales de Mercado Pago por día
 
-.link https://go.dev/solutions/mercadolibre/
-.link https://github.com/mercadolibre/golang-tutorial-public
+.image images/gomeli.jpg
+
+//////////////////////////////////////////////////
+
+## Un poco de historia...
+
+En el 2015, las APIs de Mercadolibre estaban escritas en Groovy utilizando el framework Grails.
+
+Si bien Groovy tiene a su favor que corre sobre la JVM de Java, Mercadolibre tenía algunos problemas.
+
+- Lenguaje dinámico -> Requiere desarrolladores con experiencia
+- Tiempos de tests lentos
+- Tiempos de despliegue lentos
+
+//////////////////////////////////////////////////
+
+## ¿Por qué usan Go en Mercadolibre?
+
+- Simplicidad
+
+La sintaxis limpia y expresiva de Go permite a desarrolladores menos experimentados aprender rápidamente el lenguaje.
+
+- Performance
+
+Cada segundo afecta a la experiencia de usuario.
+
+- Escalabilidad
+
+- Eficiencia
+
+Go hace un eficiente uso de recursos, lo cual permite mantener el mismo servicio pero con menos servidores que otras tecnologías.
+
+//////////////////////////////////////////////////
+
+## Otros proyectos que usan Go
+
+- Twitch
+- Netflix
+- Dropbox
+- Etc.
+
+\...y todos los de esta lista!
+
+.link https://github.com/golang/go/wiki/GoUsers
 
 //////////////////////////////////////////////////
 
@@ -259,38 +299,6 @@ Entonces...
 - Aplicaciones con interfaz gráfica
 - Aplicaciones orientadas a objetos
 - Otras cosas que Go no se banca
-
-//////////////////////////////////////////////////
-
-## Referencias
-
-.link golang.org
-.link golang.org/doc
-.link blog.golang.org
-.link talks.golang.org
-.link tour.golang.org
-.link github.com/golang/go/wiki
-
-//////////////////////////////////////////////////
-
-## Esta es la primer slide
-
-Acá podemos escribir texto
-
-- Podemos
-- Tener
-- Bullets
-
-Código:
-
-        hello := 1
-        bye := "bye"
-
-Formatos (markdown):
-
-_cursiva_  
-**negrita**  
-Links: Visit [the Go home page](https://golang.org/).
 
 //////////////////////////////////////////////////
 
@@ -338,30 +346,14 @@ Go es 3er lenguaje más interesante para aprender:
 
 //////////////////////////////////////////////////
 
-## Segunda diapositiva: comandos (.code)
+## Referencias
 
-Sin start omit y end omit
-
-.code examples/hello.go
-
-Con start omit y end omit
-
-.code examples/hello.go /START OMIT/,/END OMIT/
-
-## Tercera diapositiva: comandos (.play)
-
-.play examples/hello.go /START OMIT/,/END OMIT/
-
-## Cuarta diapositiva: comandos (.image)
-
-Gopher vs actual gopher
-
-.image images/gopher.png
-
-.image images/actual-gopher.jpg
-
-## Quinta diapositiva: comandos (.image)
-
-Gopher gif
-
-.image images/gopher.gif
+.link golang.org
+.link golang.org/doc
+.link blog.golang.org
+.link talks.golang.org
+.link tour.golang.org
+.link github.com/golang/go/wiki
+.link https://go.dev/solutions/mercadolibre/
+.link https://github.com/mercadolibre/golang-tutorial-public
+.link https://ideas.mercadolibre.com/ar/noticias/historia-de-mercado-libre/
