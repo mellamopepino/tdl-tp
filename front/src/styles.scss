@@ -1,0 +1,18 @@
+.emoji {
+  display: inline-block;
+  width: auto;
+  height: 2em;
+  margin: 0 0.5em;
+}
+
+.warehouse, .builds, .resources {
+  h2 .emoji {
+    margin-left: 0;
+  }
+}
+
+.title {
+  text-align: center;
+  font-weight: bolder;
+  font-size: xxx-large;
+}
