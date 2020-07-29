@@ -1,37 +1,20 @@
 package main
 
 import (
-	"encoding/csv"
-	"fmt"
+	"encoding/json"
 	"os"
-	"strconv"
 )
 
 // ReadConfig lee el archivo de configuracion y devuelve dos slices:
 // uno de recursos y otro de cantidad de consumers (gatherers) por recurso
-func ReadConfig(filePath string) (resources []string, gatherers []int, fileError bool) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("File error:", r)
-			fileError = true
-		}
-	}()
-	fileError = false
+func ReadResourcesConfig(filePath string) (resources []Resource) {
 	file, err := os.Open(filePath)
 	check(err)
 	defer file.Close()
 
-	lines, err := csv.NewReader(file).ReadAll()
+	err = json.NewDecoder(file).Decode(&resources)
 	check(err)
 
-	for _, line := range lines {
-		var resourceName string = line[0]
-		var resourceGatherers string = line[1]
-		parsedGatherers, err := strconv.Atoi(resourceGatherers)
-		check(err)
-		resources = append(resources, resourceName)
-		gatherers = append(gatherers, parsedGatherers)
-	}
 	return
 }
 
@@ -39,4 +22,15 @@ func check(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func ReadWeaponsConfig(filePath string) (weapons []Weapon) {
+	file, err := os.Open(filePath)
+	check(err)
+	defer file.Close()
+
+	err = json.NewDecoder(file).Decode(&weapons)
+	check(err)
+
+	return
 }

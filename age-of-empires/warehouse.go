@@ -9,8 +9,7 @@ type addResources struct {
 }
 
 type useResources struct {
-	materials []string
-	amount    int
+	materials map[string]int
 	ok        chan bool
 }
 
@@ -47,15 +46,15 @@ func (warehouse *Warehouse) Listen() {
 				resources[addOp.material] += addOp.amount
 			case useOp := <-warehouse.useOp:
 				ok := true
-				for _, material := range useOp.materials {
-					if resources[material] < useOp.amount {
+				for material, amount := range useOp.materials {
+					if resources[material] < amount {
 						ok = false
 						break
 					}
 				}
 				if ok {
-					for _, material := range useOp.materials {
-						resources[material] -= useOp.amount
+					for material, amount := range useOp.materials {
+						resources[material] -= amount
 					}
 				}
 				useOp.ok <- ok
@@ -76,9 +75,8 @@ func (warehouse *Warehouse) Add(material string, amount int) {
 }
 
 // Use resta recursos al warehouse (si están disponibles)
-func (warehouse *Warehouse) Use(amount int, materials []string) bool {
+func (warehouse *Warehouse) Use(materials map[string]int) bool {
 	useOp := useResources{
-		amount:    amount,
 		materials: materials,
 		ok:        make(chan bool),
 	}

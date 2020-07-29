@@ -5,34 +5,23 @@ import (
 	"sync"
 )
 
-const builders = 2
+type Resource struct {
+	Name      string
+	Gatherers int
+}
 
-func produceAndConsumeResource(name string, workers int, warehohuse *Warehouse) *sync.WaitGroup {
-	resourceChannel := make(chan int, 20)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(workers)
-
-	produce(resourceChannel, name)
-	for i := 0; i < workers; i++ {
-		consume(resourceChannel, wg, warehohuse, name, i+1)
-	}
-
-	return wg
+type Weapon struct {
+	Name      string
+	Builders  int
+	Materials map[string]int
 }
 
 func main() {
-	var resources []string
-	var gatherers []int
-	var err bool
-
-	resources, gatherers, err = ReadConfig("resources.csv")
+	resources, weapons, err := loadConfig()
 	if err {
-		fmt.Println("Irrecoverable error, exiting...")
+		fmt.Println("Fatal error. Exiting...")
 		return
 	}
-	var resourcesQ int = len(resources)
-	var gatherersWaitGroups []*sync.WaitGroup
 
 	// Warehouse guarda los recursos ya listos para usar
 	warehouse := MakeWarehouse()
@@ -41,20 +30,20 @@ func main() {
 	// Por cada recurso generamos un "producer" y múltiples "consumers".
 	// Los producers envian por el canal del recurso los recursos disponibles "en el mapa"
 	// Los consumers "cosechan" esos recursos y los agregan al warehouse
-	for i := 0; i < resourcesQ; i++ {
-		resourceWaitGroup := produceAndConsumeResource(resources[i], gatherers[i], warehouse)
+	var gatherersWaitGroups []*sync.WaitGroup
+	for _, resource := range resources {
+		resourceWaitGroup := produceAndConsumeResource(resource, warehouse)
 		gatherersWaitGroups = append(gatherersWaitGroups, resourceWaitGroup)
 	}
 
 	buildersWaitGroup := &sync.WaitGroup{}
-	buildersWaitGroup.Add(builders)
 
 	// Generamos constructores que toman recursos del warehouse y los transforman en escudos y espadas
-	for i := 0; i < builders; i++ {
-		if i < builders/2 {
-			build(warehouse, buildersWaitGroup, "shield", resources[:resourcesQ/2+1], 10, i+1)
-		} else {
-			build(warehouse, buildersWaitGroup, "sword", resources[resourcesQ/2:], 10, i+1)
+	for _, weapon := range weapons {
+		builders := weapon.Builders
+		for i := 0; i < builders; i++ {
+			buildersWaitGroup.Add(1)
+			build(warehouse, buildersWaitGroup, weapon, i+1)
 		}
 	}
 
@@ -68,4 +57,31 @@ func main() {
 	buildersWaitGroup.Wait()
 
 	fmt.Println(warehouse.GetAll())
+}
+
+func loadConfig() (resources []Resource, weapons []Weapon, err bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("File error:", r)
+			err = true
+		}
+	}()
+
+	resources = ReadResourcesConfig("resources.json")
+	weapons = ReadWeaponsConfig("weapons.json")
+	return
+}
+
+func produceAndConsumeResource(resource Resource, warehohuse *Warehouse) *sync.WaitGroup {
+	resourceChannel := make(chan int, 20)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(resource.Gatherers)
+
+	produce(resourceChannel, resource.Name)
+	for i := 0; i < resource.Gatherers; i++ {
+		consume(resourceChannel, wg, warehohuse, resource.Name, i+1)
+	}
+
+	return wg
 }
