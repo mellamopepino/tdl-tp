@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"sync"
+
+	"ageofempires/websockets"
 )
 
 type Resource struct {
@@ -48,14 +49,13 @@ func main() {
 		}
 	}
 
-	http.HandleFunc("/send", sendHandler)
-	go http.ListenAndServe(":8080", nil)
+	websockets.Init()
 
 	// Esperamos que los consumers (gatherers) terminen de cosechar recursos y les avisamos a los builders
 	for _, wg := range gatherersWaitGroups {
 		wg.Wait()
 	}
-	showMessage("All gatherers finished")
+	websockets.ShowMessage("All gatherers finished")
 	warehouse.done = true
 	// Esperamos que los builders terminen y mostramos los recursos finales
 	buildersWaitGroup.Wait()

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ageofempires/websockets"
 	"sync"
 	"time"
 )
@@ -10,10 +11,10 @@ func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, m
 	go func() {
 		defer wg.Done()
 		for amount := range rawResource {
-			showMessage("%v worker number %v started to gather %v", material, id, material)
+			websockets.ShowMessage("%v worker number %v started to gather %v", material, id, material)
 			time.Sleep(2 * time.Second) // Working...
 			gatheredAmount := amount * 10
-			showMessage("%v worker number %v finished gathering %v of %v", material, id, gatheredAmount, material)
+			websockets.ShowMessage("%v worker number %v finished gathering %v of %v", material, id, gatheredAmount, material)
 
 			warehouse.Add(material, gatheredAmount)
 		}

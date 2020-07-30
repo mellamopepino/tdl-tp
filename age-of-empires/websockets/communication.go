@@ -1,4 +1,4 @@
-package main
+package websockets
 
 import (
 	"fmt"
@@ -13,7 +13,14 @@ var upgrader = websocket.Upgrader{
 
 var messages = make(chan string, 1000)
 
-func showMessage(message string, variables ...interface{}) {
+func Init() {
+	go func() {
+		http.HandleFunc("/send", sendHandler)
+		http.ListenAndServe(":8080", nil)
+	}()
+}
+
+func ShowMessage(message string, variables ...interface{}) {
 	filledMessage := fmt.Sprintf(message, variables...)
 	fmt.Println(filledMessage)
 	messages <- filledMessage
