@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"sync"
 )
 
@@ -46,6 +47,9 @@ func main() {
 			build(warehouse, buildersWaitGroup, weapon, i+1)
 		}
 	}
+
+	http.HandleFunc("/send", sendHandler)
+	go http.ListenAndServe(":8080", nil)
 
 	// Esperamos que los consumers (gatherers) terminen de cosechar recursos y les avisamos a los builders
 	for _, wg := range gatherersWaitGroups {

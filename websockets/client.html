@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script>
+    // Es este el codigo mas feo que vas a ver hoy? Yo creo que si
+window.addEventListener("load", function(evt) {
+    var output = document.getElementById("output");
+    var input = document.getElementById("input");
+
+    var printMessage = function(message) {
+        var d = document.createElement("div");
+        d.textContent = message;
+        output.appendChild(d);
+    };
+    
+    var receiveWs = new WebSocket("ws://127.0.0.1:8080/send");
+    receiveWs.onmessage = function(evt) {
+        printMessage("MENSAJE DEL SOCKET: " + evt.data);
+    }
+
+    // var sendWs = new WebSocket("ws://127.0.0.1:8080/receive");
+    // document.getElementById("send").onclick = function(evt) {
+    //     sendWs.send(input.value);
+    //     return false;
+    // };
+    // document.getElementById("close").onclick = function(evt) {
+    //     sendWs.close();
+    //     return false;
+    // };
+});
+</script>
+</head>
+<body>
+<table>
+<tr><td valign="top" width="50%">
+<form>
+<button id="close">Close</button>
+<p><input id="input" type="text" value="Hello world!">
+<button id="send">Send</button>
+</form>
+</td><td valign="top" width="50%">
+<div id="output"></div>
+</td></tr></table>
+</body>
+</html>
