@@ -10,11 +10,12 @@ func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, m
 	go func() {
 		defer wg.Done()
 		for amount := range rawResource {
-			showMessage("%v worker number %v started to gather %v of %v", material, id, amount, material)
+			showMessage("%v worker number %v started to gather %v", material, id, material)
 			time.Sleep(2 * time.Second) // Working...
-			showMessage("%v worker number %v finished gathering %v of %v", material, id, amount, material)
+			gatheredAmount := amount * 10
+			showMessage("%v worker number %v finished gathering %v of %v", material, id, gatheredAmount, material)
 
-			warehouse.Add(material, amount)
+			warehouse.Add(material, gatheredAmount)
 		}
 	}()
 }

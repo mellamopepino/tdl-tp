@@ -1,14 +1,16 @@
 package main
 
-var materials = []int{10, 10, 10, 20, 20, 20, 30, 30, 30, 40, 40, 40}
+var materials = []int{1, 4, 1, 3, 1, 2, 1, 5, 1, 2, 1, 1}
 
 // Recibir recursos y mandar esos recursos a un channel
 // Ahora mismo los saca de un array, pero se puede cambiar por cualquier cosa (por ejemplo, web sockets)
 func produce(rawResource chan<- int, material string) {
 	go func() {
 		for _, amount := range materials {
-			showMessage("New resources discovered! %v: %v", material, amount)
-			rawResource <- amount
+			for i := 0; i < amount; i++ {
+				showMessage("New resources discovered! %v %v(s)", amount, material)
+				rawResource <- 1
+			}
 		}
 		close(rawResource)
 	}()
