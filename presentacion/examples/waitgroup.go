@@ -22,6 +22,7 @@ func main() {
 		go trabajador(i, &wg)
 	}
 	wg.Wait()
+	fmt.Println("Terminaron todos los trabajadores")
 }
 
 // END OMIT

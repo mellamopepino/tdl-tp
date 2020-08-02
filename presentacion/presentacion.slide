@@ -20,12 +20,11 @@ Franco Schischlo
 - **Tipado**: estático e inferido (duck typing)
 - Compilado
 - Tiene garbage collector
-- TDAs:
+- Pasaje por valor
 
-        - Abierto para el mismo paquete, cerrado para paquetes distintos
-        - Con estado
-        - Empaquetado y no empaquetado
-- Pasaje por valor y por referencia (dependiendo el tipo de dato)
+*“Go is statically typed and compiled, like C++ or Java, but in many ways feels as lightweight and dynamic as JavaScript or Python.”*
+
+.play examples/hello.go /START OMIT/,/END OMIT/
 
 //////////////////////////////////////////////////
 
@@ -95,7 +94,7 @@ Set de keywords:
 
 .image images/keywords.png
 
-(Dato de color: son 25, C tiene 32, y C++ 95….)
+(Dato de color: son 25, C tiene 32, y C++ 95…)
 
 Set de operadores y puntuación:
 
@@ -105,7 +104,7 @@ Set de operadores y puntuación:
 
 ## Características Core
 
- **Tipos de datos básicos:**
+**Tipos de datos básicos:**
 
 - int  int8  int16  int32  int64
 - uint uint8 uint16 uint32 uint64 uintptr
@@ -136,15 +135,15 @@ entre otros...
 
 ## Características Core
 
-**Inicialización de Variables:**
+**Inicialización de variables:**
 
-Las variables, si no se les define un valor al declararlas, se las inicializa con un valor (a esto se lo llama _Zero_ _Value_ _Initialization_)
+Las variables, si no se les define un valor al declararlas, se las inicializa con un valor por defecto (a esto se lo llama _Zero_ _Value_ _Initialization_)
 
-- *0* para enteras
-- *0.0* para punto flotante
-- *false* para bool
-- *""* para string
-- *nil* para interfaces, slices, channels, maps, punteros y funciones.
+- **0** para enteras
+- **0.0** para punto flotante
+- **false** para bool
+- **""** para string
+- **nil** para interfaces, slices, channels, maps, punteros y funciones.
 
 //////////////////////////////////////////////////
 
@@ -212,7 +211,7 @@ _Cerrar channel_:
 
 //////////////////////////////////////////////////
 
-## Ejemplo basico
+## Ejemplo básico
 
 Un poco de código:
 
@@ -221,11 +220,17 @@ Un poco de código:
 
 //////////////////////////////////////////////////
 
-## Ejemplo basico 2
+## Ejemplo básico 2
 
 Un poco de código:
 
 .play examples/waitgroup.go /START OMIT/,/END OMIT/
+
+//////////////////////////////////////////////////
+
+## Ejemplo integrador
+
+.image images/aoe.png
 
 //////////////////////////////////////////////////
 

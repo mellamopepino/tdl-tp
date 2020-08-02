@@ -1,11 +1,11 @@
 package main
 
-import (
-	"fmt"
-)
+// START OMIT
+import "fmt"
 
 func main() {
-	// START OMIT
-	fmt.Println("Hello world")
-	// END OMIT
+	greeting := "Hello world!"
+	fmt.Println("Greeting:", greeting)
 }
+
+// END OMIT
