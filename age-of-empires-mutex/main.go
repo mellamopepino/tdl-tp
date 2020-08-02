@@ -1,19 +1,20 @@
 package main
 
 import (
+	"ageofempires/websockets"
 	"fmt"
 	"log"
 	"sync"
 	"time"
-
-	"ageofempires/websockets"
 )
 
+// Resource para los recursos
 type Resource struct {
 	Name      string
 	Gatherers int
 }
 
+// Weapon para las armas
 type Weapon struct {
 	Name      string
 	Builders  int
@@ -30,7 +31,6 @@ func main() {
 
 	// Warehouse guarda los recursos ya listos para usar
 	warehouse := MakeWarehouse()
-	warehouse.Listen()
 
 	// Por cada recurso generamos un "producer" y múltiples "consumers".
 	// Los producers envian por el canal del recurso los recursos disponibles "en el mapa"

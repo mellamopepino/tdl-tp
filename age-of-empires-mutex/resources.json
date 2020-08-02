@@ -1,0 +1,14 @@
+[
+  {
+    "name": "stone",
+    "gatherers": 2
+  },
+  {
+    "name": "gold",
+    "gatherers": 2
+  },
+  {
+    "name": "wood",
+    "gatherers": 2
+  }
+]
