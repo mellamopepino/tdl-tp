@@ -8,7 +8,7 @@ Delfina García Villamor
 
 Lucía Kasman
 
-Franco Schischlo
+Franco Daniel Schischlo
 
 //////////////////////////////////////////////////
 
@@ -181,6 +181,7 @@ Las variables, si no se les define un valor al declararlas, se las inicializa co
 Formas de sincronizacion/comunicación:
 - channels
 - sync.WaitGroup
+- sync.Mutex
 
 //////////////////////////////////////////////////
 
@@ -190,24 +191,6 @@ Formas de sincronizacion/comunicación:
 
 - Es un tipo de dato que nos permite enviar y recibir datos a través de él.
 - Son bloqueantes, salvo si se les pasa una capacidad al momento de crearlos (en cuyo caso se bloquean al estar llenos, o vacios)
-
-_Creación_:
-
-	                llamada := make(chan string)
-
-_Envío_:
-
-	                llamada <- "Hola, buen dia"
-
-_Recepción_:
-
-	                saludo, ok = <- llamada
-
-(el ok se utiliza para chequear el estado del canal)
-
-_Cerrar channel_:
-
-	                close(llamada)
 
 //////////////////////////////////////////////////
 
