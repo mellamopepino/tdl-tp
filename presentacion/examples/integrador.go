@@ -35,7 +35,7 @@ func main() {
 	var saludos chan string = make(chan string)
 	profesores := []profesor{"Rosita", "Leandro"}
 	profesores = append(profesores, "Ariel")
-	profesores = profesores[1:]
+	profesores = profesores[1:] // [start:end]
 	for _, profesor := range profesores {
 		fmt.Printf("Profesor: %s\n", profesor)
 	}
