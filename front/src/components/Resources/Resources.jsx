@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import { useSelector } from 'react-redux';
 import {
   TreeEmoji,
   FarmerEmoji,
@@ -8,6 +9,7 @@ import {
 } from '../../emojis/'
 
 const Resources = () => {
+  const gatherers = useSelector((state) => state.gatherers)
 
   return (
     <Card className="resources">
@@ -19,12 +21,13 @@ const Resources = () => {
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          <p>
-            <TreeEmoji/> [3] <FarmerEmoji/> [2 working...]
-          </p>
-          <p>
-            <StoneEmoji/> [2] <FarmerEmoji/> [1 working...]
-          </p>
+          <TreeEmoji/> <FarmerEmoji/> [{gatherers.wood} working...]
+        </Card.Text>
+        <Card.Text>
+          <StoneEmoji/> <FarmerEmoji/> [{gatherers.stone} working...]
+        </Card.Text>
+        <Card.Text>
+          <StoneEmoji/> <FarmerEmoji/> [{gatherers.gold} working...]
         </Card.Text>
       </Card.Body>
     </Card>

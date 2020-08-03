@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Row, Col } from 'react-bootstrap'
+import { useSelector } from 'react-redux';
 import {
   FarmerEmoji,
   WorkerEmoji,
 } from '../../emojis/'
 
 const Info = () => {
+  const info = useSelector((state) => state.info)
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -13,7 +15,7 @@ const Info = () => {
       setTime((time) => time + 1)
     }, 1000)
 
-    clearInterval(time)
+    return () => clearInterval(interval)
   }, [])
 
   
@@ -26,22 +28,17 @@ const Info = () => {
           </h1>
         </Col>
         <Col className="mx-2">
-          <h4>Goroutines</h4>
-          <p> Initial: 1000 </p>
-          <p> Current: 1000 </p>
-        </Col>
-        <Col className="mx-2">
           <h4>Jobs</h4>
-          <p> In progress: 42 </p>
-          <p> Finished: 42 </p>
+          <p> In progress: {info.jobsInProgress} </p>
+          <p> Finished: {info.jobsFinished} </p>
         </Col>
         <Col className="mx-2">
           <h4>Total workers</h4>
           <p>
-            <FarmerEmoji/> [10]
+            <FarmerEmoji/> [{info.totalGatherers}]
           </p>
           <p>
-            <WorkerEmoji/> [4]
+            <WorkerEmoji/> [{info.totalWorkers}]
           </p>
         </Col>
       </Row>

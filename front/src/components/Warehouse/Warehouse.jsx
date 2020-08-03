@@ -1,12 +1,17 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import { useSelector } from 'react-redux';
 import {
   WarehouseEmoji,
   WoodEmoji,
   StoneEmoji,
+  ShieldEmoji,
+  SwordEmoji,
 } from '../../emojis';
 
 const Warehouse = () => {
+  const warehouse = useSelector((state) => state.warehouse)
+
   return (
     <Card className="warehouse">
       <Card.Header>
@@ -17,14 +22,24 @@ const Warehouse = () => {
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          <p>
-            <WoodEmoji />
-            Wood: 10
-          </p>
-          <p>
-            <StoneEmoji />
-            Stone: 20
-          </p>
+          <WoodEmoji />
+          Wood: {warehouse.wood}
+        </Card.Text>
+        <Card.Text>
+          <StoneEmoji />
+          Stone: {warehouse.stone}
+        </Card.Text>
+        <Card.Text>
+          <StoneEmoji />
+          Gold: {warehouse.gold}
+        </Card.Text>
+        <Card.Text>
+          <SwordEmoji />
+          Sword: {warehouse.sword}
+        </Card.Text>
+        <Card.Text>
+          <ShieldEmoji />
+          Shield: {warehouse.shield}
         </Card.Text>
       </Card.Body>
     </Card>

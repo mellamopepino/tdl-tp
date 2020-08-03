@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import { useSelector } from 'react-redux';
 import {
   SwordEmoji,
   WorkerEmoji,
@@ -8,6 +9,7 @@ import {
 } from '../../emojis/'
 
 const Builds = () => {
+  const workers = useSelector((state) => state.workers)
 
   return (
     <Card className="builds">
@@ -19,12 +21,10 @@ const Builds = () => {
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          <p>
-            <SwordEmoji/> <WorkerEmoji/> [2 working...]
-          </p>
-          <p>
-            <ShieldEmoji/> <WorkerEmoji/> [1 working...]
-          </p>
+          <SwordEmoji/> <WorkerEmoji/> [{workers.sword} working...]
+        </Card.Text>
+        <Card.Text>
+          <ShieldEmoji/> <WorkerEmoji/> [{workers.shield} working...]
         </Card.Text>
       </Card.Body>
     </Card>
