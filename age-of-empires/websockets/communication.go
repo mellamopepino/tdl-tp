@@ -13,11 +13,13 @@ var upgrader = websocket.Upgrader{
 
 var messages = make(chan string, 1000)
 
-func Init() {
-	go func() {
-		http.HandleFunc("/send", sendHandler)
-		http.ListenAndServe(":8080", nil)
-	}()
+func Init(callback func()) {
+  handler := func(w http.ResponseWriter, r *http.Request) {
+    sendHandler(w, r, callback)
+  }
+
+  http.HandleFunc("/send", handler)
+  http.ListenAndServe(":8080", nil)
 }
 
 func ShowMessage(message string, variables ...interface{}) {
@@ -26,8 +28,9 @@ func ShowMessage(message string, variables ...interface{}) {
 	messages <- filledMessage
 }
 
-func sendHandler(w http.ResponseWriter, r *http.Request) {
+func sendHandler(w http.ResponseWriter, r *http.Request, callback func()) {
 	ws, _ := upgrader.Upgrade(w, r, nil)
+  go callback()
 	for {
 		message := <-messages
 		ws.WriteMessage(1, []byte(message))

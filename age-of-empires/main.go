@@ -21,6 +21,10 @@ type Weapon struct {
 }
 
 func main() {
+	websockets.Init(startGame)
+}
+
+func startGame() {
 	start := time.Now()
 	resources, weapons, err := loadConfig()
 	if err {
@@ -37,6 +41,7 @@ func main() {
 	// Los consumers "cosechan" esos recursos y los agregan al warehouse
 	var gatherersWaitGroups []*sync.WaitGroup
 	for _, resource := range resources {
+		websockets.ShowMessage("NEW_GATHERERS %v", resource.Gatherers)
 		resourceWaitGroup := produceAndConsumeResource(resource, warehouse)
 		gatherersWaitGroups = append(gatherersWaitGroups, resourceWaitGroup)
 	}
@@ -46,13 +51,12 @@ func main() {
 	// Generamos constructores que toman recursos del warehouse y los transforman en escudos y espadas
 	for _, weapon := range weapons {
 		builders := weapon.Builders
+		websockets.ShowMessage("NEW_WORKERS %v", builders)
 		for i := 0; i < builders; i++ {
 			buildersWaitGroup.Add(1)
 			build(warehouse, buildersWaitGroup, weapon, i+1)
 		}
 	}
-
-	websockets.Init()
 
 	// Esperamos que los consumers (gatherers) terminen de cosechar recursos y les avisamos a los builders
 	for _, wg := range gatherersWaitGroups {

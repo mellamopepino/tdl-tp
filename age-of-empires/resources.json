@@ -1,7 +1,7 @@
 [
   {
     "name": "stone",
-    "gatherers": 2
+    "gatherers": 5
   },
   {
     "name": "gold",
@@ -9,6 +9,6 @@
   },
   {
     "name": "wood",
-    "gatherers": 2
+    "gatherers": 7
   }
 ]

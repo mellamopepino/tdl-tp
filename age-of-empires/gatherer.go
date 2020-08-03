@@ -4,6 +4,7 @@ import (
 	"ageofempires/websockets"
 	"sync"
 	"time"
+  "math/rand"
 )
 
 // Recoleta recursos provenientes del canal de su recurso
@@ -11,10 +12,11 @@ func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, m
 	go func() {
 		defer wg.Done()
 		for amount := range rawResource {
-			websockets.ShowMessage("%v worker number %v started to gather %v", material, id, material)
-			time.Sleep(2 * time.Second) // Working...
+			time.Sleep(time.Duration(rand.Intn(5)) * time.Second) // Working...
+      websockets.ShowMessage("START_GATHER %v", material)
+			time.Sleep(time.Duration(rand.Intn(5)) * time.Second) // Working...
 			gatheredAmount := amount * 10
-			websockets.ShowMessage("%v worker number %v finished gathering %v of %v", material, id, gatheredAmount, material)
+      websockets.ShowMessage("FINISHED_GATHER %v %v", material, gatheredAmount)
 
 			warehouse.Add(material, gatheredAmount)
 		}
