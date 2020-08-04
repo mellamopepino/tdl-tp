@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sync"
+	"time"
 
 	"ageofempires/websockets"
 )
@@ -64,6 +66,9 @@ func startGame() {
 	// Esperamos que los builders terminen y mostramos los recursos finales
 	buildersWaitGroup.Wait()
 	websockets.ShowMessage("FINISH_ALL_BUILDERS")
+
+	time.Sleep(5 * time.Second)
+	os.Exit(0)
 }
 
 func loadConfig() (resources []Resource, weapons []Weapon, err bool) {

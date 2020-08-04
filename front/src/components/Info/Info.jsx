@@ -45,6 +45,7 @@ const Info = () => {
           <h4>Jobs</h4>
           <p> In progress: {info.jobsInProgress} </p>
           <p> Finished: {info.jobsFinished} </p>
+          <p> Failed builds: {info.failedBuilds} </p>
         </Col>
         <Col className="mx-2">
           <h4>Total workers</h4>

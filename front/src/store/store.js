@@ -51,21 +51,6 @@ const finishAllGatherers = (state, data) => {
 }
 
 const startBuild = (state, data) => {
-  const [ material ] = data
-  return {
-    ...state,
-    workers: {
-      ...state.workers,
-      [material]: state.workers[material] + 1
-    },
-    info: {
-      ...state.info,
-      jobsInProgress: state.info.jobsInProgress + 1
-    }
-  };
-}
-
-const finishBuild = (state, data) => {
   const [ weapon ] = data
   const materials = weapon === "sword" ?
     {
@@ -80,12 +65,30 @@ const finishBuild = (state, data) => {
     ...state,
     workers: {
       ...state.workers,
+      [weapon]: state.workers[weapon] + 1
+    },
+    info: {
+      ...state.info,
+      jobsInProgress: state.info.jobsInProgress + 1
+    },
+    warehouse: {
+      ...state.warehouse,
+      ...materials
+    }
+  };
+}
+
+const finishBuild = (state, data) => {
+  const [ weapon ] = data
+  return {
+    ...state,
+    workers: {
+      ...state.workers,
       [weapon]: state.workers[weapon] - 1
     },
     warehouse: {
       ...state.warehouse,
-      [weapon]: state.warehouse[weapon] + 1,
-      ...materials
+      [weapon]: state.warehouse[weapon] + 1
     },
     info: {
       ...state.info,
@@ -96,17 +99,11 @@ const finishBuild = (state, data) => {
 }
 
 const failBuild = (state, data) => {
-  const [ material ] = data
   return {
     ...state,
-    workers: {
-      ...state.workers,
-      [material]: state.workers[material] - 1
-    },
     info: {
       ...state.info,
-      jobsFinished: state.info.jobsFinished + 1,
-      jobsInProgress: state.info.jobsInProgress - 1
+      failedBuilds: state.info.failedBuilds + 1
     }
   };
 }
@@ -183,6 +180,7 @@ const initialState = {
     totalGatherers: 0,
     totalWorkers: 0,
     done: false,
+    failedBuilds: 0
   },
   resources: {
     wood: 0,

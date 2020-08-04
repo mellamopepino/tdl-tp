@@ -13,10 +13,10 @@ func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon, id int) {
 	go func() {
 		defer wg.Done()
 		for {
-			websockets.ShowMessage("START_BUILD %v", weapon.Name)
 			ok := warehouse.Use(weapon.Materials)
 			if ok {
-				time.Sleep(time.Duration(rand.Intn(4)+3) * time.Second) // Working...
+				websockets.ShowMessage("START_BUILD %v %v", weapon.Name, weapon.Materials)
+				time.Sleep(time.Duration(rand.Intn(5)+5) * time.Second) // Working...
 				websockets.ShowMessage("FINISHED_BUILD %v %v", weapon.Name, weapon.Materials)
 				warehouse.Add(weapon.Name, 1)
 			} else {

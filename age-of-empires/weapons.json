@@ -1,7 +1,7 @@
 [
   {
     "name": "sword",
-    "builders": 7,
+    "builders": 5,
     "materials": {
       "stone": 20,
       "gold": 10
