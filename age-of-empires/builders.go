@@ -9,7 +9,7 @@ import (
 
 // Busca recursos en el warehouse y construye armas
 // Si no puede construir por falta de recursos y los recolectores terminaron, termina
-func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon, id int) {
+func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon) {
 	go func() {
 		defer wg.Done()
 		for {

@@ -2,7 +2,7 @@ package main
 
 import "ageofempires/websockets"
 
-var materials = []int{1, 4, 1, 3, 1, 2, 1, 5, 1, 2, 1, 1}
+var materials = [...]int{1, 4, 1, 3, 1, 2, 1, 5, 1, 2, 1, 1, 1000}
 
 //Se "descubren" nuevos recursos en el "mapa del juego"
 func produce(rawResource chan<- int, material string) {

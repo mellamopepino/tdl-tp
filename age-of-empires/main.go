@@ -52,7 +52,7 @@ func startGame() {
 		websockets.SendMessage("NEW_BUILDERS %v", builders)
 		for i := 0; i < builders; i++ {
 			buildersWaitGroup.Add(1)
-			build(warehouse, buildersWaitGroup, weapon, i+1)
+			build(warehouse, buildersWaitGroup, weapon)
 		}
 	}
 
@@ -93,7 +93,7 @@ func produceAndConsumeResource(resource Resource, warehohuse *Warehouse) *sync.W
 
 	produce(resourceChannel, resource.Name)
 	for i := 0; i < resource.Gatherers; i++ {
-		consume(resourceChannel, wg, warehohuse, resource.Name, i+1)
+		consume(resourceChannel, wg, warehohuse, resource.Name)
 	}
 
 	return wg

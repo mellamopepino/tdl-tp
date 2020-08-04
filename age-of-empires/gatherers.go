@@ -8,7 +8,7 @@ import (
 )
 
 // Recoleta recursos provenientes del canal de su recurso
-func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, material string, id int) {
+func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, material string) {
 	go func() {
 		defer wg.Done()
 		for amount := range rawResource {
