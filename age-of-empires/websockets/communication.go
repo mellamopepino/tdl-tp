@@ -13,6 +13,7 @@ var upgrader = websocket.Upgrader{
 
 var messages = make(chan string, 1000)
 
+// Inicia servidor de websockets
 func Init(callback func()) {
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		sendHandler(w, r, callback)
@@ -22,7 +23,8 @@ func Init(callback func()) {
 	http.ListenAndServe(":8080", nil)
 }
 
-func ShowMessage(message string, variables ...interface{}) {
+// Envia mensajes por websocket
+func SendMessage(message string, variables ...interface{}) {
 	filledMessage := fmt.Sprintf(message, variables...)
 	messages <- filledMessage
 }

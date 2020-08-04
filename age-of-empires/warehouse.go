@@ -1,6 +1,5 @@
 package main
 
-// Resources representa los recursos guardados. Usamos un mapa que mapea strings a ints
 type Resources map[string]int
 
 type addResources struct {
@@ -17,7 +16,6 @@ type getResources struct {
 	resp chan Resources
 }
 
-// Warehouse es un struct con métodos asociados que facilitan compartir recursos
 type Warehouse struct {
 	addOp chan addResources
 	useOp chan useResources
@@ -25,7 +23,6 @@ type Warehouse struct {
 	done  bool
 }
 
-// MakeWarehouse es una función auxiliar que crea warehouses
 func MakeWarehouse() *Warehouse {
 	warehouse := Warehouse{
 		addOp: make(chan addResources),
@@ -36,7 +33,7 @@ func MakeWarehouse() *Warehouse {
 	return &warehouse
 }
 
-// Listen es la goroutine stateful que efectivamente contiene los recursos compartidos
+// Goroutine dueña del estado del warehouse
 func (warehouse *Warehouse) Listen() {
 	go func() {
 		var resources = make(Resources)
@@ -63,7 +60,7 @@ func (warehouse *Warehouse) Listen() {
 	}()
 }
 
-// Add agrega recursos al warehouse
+// Function receiver para agregar cosas al warehouse
 func (warehouse *Warehouse) Add(material string, amount int) {
 	addOp := addResources{
 		material: material,
@@ -72,7 +69,7 @@ func (warehouse *Warehouse) Add(material string, amount int) {
 	warehouse.addOp <- addOp
 }
 
-// Use resta recursos al warehouse (si están disponibles)
+// Function receiver para usar recursos del warehouse
 func (warehouse *Warehouse) Use(materials map[string]int) bool {
 	useOp := useResources{
 		materials: materials,

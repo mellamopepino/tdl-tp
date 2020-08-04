@@ -5,8 +5,6 @@ import (
 	"os"
 )
 
-// ReadConfig lee el archivo de configuracion y devuelve dos slices:
-// uno de recursos y otro de cantidad de consumers (gatherers) por recurso
 func ReadResourcesConfig(filePath string) (resources []Resource) {
 	file, err := os.Open(filePath)
 	check(err)

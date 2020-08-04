@@ -25,47 +25,47 @@ func main() {
 }
 
 func startGame() {
+	// Cargamos configuracion
 	resources, weapons, err := loadConfig()
 	if err {
 		fmt.Println("Fatal error. Exiting...")
 		return
 	}
 
-	// Warehouse guarda los recursos ya listos para usar
+	// Creamos warehouse
 	warehouse := MakeWarehouse()
 	warehouse.Listen()
 
-	// Por cada recurso generamos un "producer" y múltiples "consumers".
-	// Los producers envian por el canal del recurso los recursos disponibles "en el mapa"
-	// Los consumers "cosechan" esos recursos y los agregan al warehouse
+	// Generamos recursos y recolectores
 	var gatherersWaitGroups []*sync.WaitGroup
 	for _, resource := range resources {
-		websockets.ShowMessage("NEW_GATHERERS %v", resource.Gatherers)
+		websockets.SendMessage("NEW_GATHERERS %v", resource.Gatherers)
 		resourceWaitGroup := produceAndConsumeResource(resource, warehouse)
 		gatherersWaitGroups = append(gatherersWaitGroups, resourceWaitGroup)
 	}
 
 	buildersWaitGroup := &sync.WaitGroup{}
 
-	// Generamos constructores que toman recursos del warehouse y los transforman en escudos y espadas
+	// Generamos constructores
 	for _, weapon := range weapons {
 		builders := weapon.Builders
-		websockets.ShowMessage("NEW_BUILDERS %v", builders)
+		websockets.SendMessage("NEW_BUILDERS %v", builders)
 		for i := 0; i < builders; i++ {
 			buildersWaitGroup.Add(1)
 			build(warehouse, buildersWaitGroup, weapon, i+1)
 		}
 	}
 
-	// Esperamos que los consumers (gatherers) terminen de cosechar recursos y les avisamos a los builders
+	// Esperamos que los recolectores terminen
 	for _, wg := range gatherersWaitGroups {
 		wg.Wait()
 	}
-	websockets.ShowMessage("FINISH_ALL_GATHERERS")
+	websockets.SendMessage("FINISH_ALL_GATHERERS")
 	warehouse.done = true
-	// Esperamos que los builders terminen y mostramos los recursos finales
+
+	// Esperramos que los constructores terminen
 	buildersWaitGroup.Wait()
-	websockets.ShowMessage("FINISH_ALL_BUILDERS")
+	websockets.SendMessage("FINISH_ALL_BUILDERS")
 
 	time.Sleep(5 * time.Second)
 	os.Exit(0)
@@ -84,6 +84,7 @@ func loadConfig() (resources []Resource, weapons []Weapon, err bool) {
 	return
 }
 
+// Por cada recurso se crea un canal por el cual los recolectores obtienen los recursos
 func produceAndConsumeResource(resource Resource, warehohuse *Warehouse) *sync.WaitGroup {
 	resourceChannel := make(chan int, 20)
 

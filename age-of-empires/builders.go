@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Busca recursos en el warehouse y construye cosas
+// Busca recursos en el warehouse y construye armas
 // Si no puede construir por falta de recursos y los recolectores terminaron, termina
 func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon, id int) {
 	go func() {
@@ -15,12 +15,12 @@ func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon, id int) {
 		for {
 			ok := warehouse.Use(weapon.Materials)
 			if ok {
-				websockets.ShowMessage("START_BUILD %v %v", weapon.Name, weapon.Materials)
+				websockets.SendMessage("START_BUILD %v %v", weapon.Name, weapon.Materials)
 				time.Sleep(time.Duration(rand.Intn(5)+5) * time.Second) // Working...
-				websockets.ShowMessage("FINISHED_BUILD %v %v", weapon.Name, weapon.Materials)
+				websockets.SendMessage("FINISHED_BUILD %v %v", weapon.Name, weapon.Materials)
 				warehouse.Add(weapon.Name, 1)
 			} else {
-				websockets.ShowMessage("FAIL_BUILD %v", weapon.Name)
+				websockets.SendMessage("FAIL_BUILD %v", weapon.Name)
 				if warehouse.done {
 					return
 				}

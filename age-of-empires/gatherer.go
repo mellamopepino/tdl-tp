@@ -12,10 +12,10 @@ func consume(rawResource <-chan int, wg *sync.WaitGroup, warehouse *Warehouse, m
 	go func() {
 		defer wg.Done()
 		for amount := range rawResource {
-			websockets.ShowMessage("START_GATHER %v", material)
+			websockets.SendMessage("START_GATHER %v", material)
 			time.Sleep(time.Duration(rand.Intn(4)+1) * time.Second) // Working...
 			gatheredAmount := amount * 10
-			websockets.ShowMessage("FINISHED_GATHER %v %v", material, gatheredAmount)
+			websockets.SendMessage("FINISHED_GATHER %v %v", material, gatheredAmount)
 
 			warehouse.Add(material, gatheredAmount)
 		}
