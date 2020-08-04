@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"sync"
-	"time"
 
 	"ageofempires/websockets"
 )
@@ -25,7 +23,6 @@ func main() {
 }
 
 func startGame() {
-	start := time.Now()
 	resources, weapons, err := loadConfig()
 	if err {
 		fmt.Println("Fatal error. Exiting...")
@@ -51,7 +48,7 @@ func startGame() {
 	// Generamos constructores que toman recursos del warehouse y los transforman en escudos y espadas
 	for _, weapon := range weapons {
 		builders := weapon.Builders
-		websockets.ShowMessage("NEW_WORKERS %v", builders)
+		websockets.ShowMessage("NEW_BUILDERS %v", builders)
 		for i := 0; i < builders; i++ {
 			buildersWaitGroup.Add(1)
 			build(warehouse, buildersWaitGroup, weapon, i+1)
@@ -62,14 +59,11 @@ func startGame() {
 	for _, wg := range gatherersWaitGroups {
 		wg.Wait()
 	}
-	websockets.ShowMessage("All gatherers finished")
+	websockets.ShowMessage("FINISH_ALL_GATHERERS")
 	warehouse.done = true
 	// Esperamos que los builders terminen y mostramos los recursos finales
 	buildersWaitGroup.Wait()
-
-	fmt.Println(warehouse.GetAll())
-	elapsed := time.Since(start)
-	log.Printf("Program took %s", elapsed)
+	websockets.ShowMessage("FINISH_ALL_BUILDERS")
 }
 
 func loadConfig() (resources []Resource, weapons []Weapon, err bool) {

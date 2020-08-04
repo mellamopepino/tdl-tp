@@ -6,6 +6,9 @@ import {
   WorkerEmoji,
 } from '../../emojis/'
 
+let finalTime = 0
+let done = false
+
 const Info = () => {
   const info = useSelector((state) => state.info)
   const [time, setTime] = useState(0);
@@ -18,13 +21,24 @@ const Info = () => {
     return () => clearInterval(interval)
   }, [])
 
+ function renderTimer() {
+   if (done) {
+     return finalTime
+   }
+   if (info.done) {
+     done = true
+     finalTime = time
+     return finalTime
+   }
+   return time
+ }
   
   return (
     <Alert variant="info">
       <Row>
         <Col className="d-flex justify-content-center">
           <h1 className="align-self-center">
-            Time {time}
+            Time {renderTimer()}
           </h1>
         </Col>
         <Col className="mx-2">

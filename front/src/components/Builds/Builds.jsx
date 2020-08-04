@@ -16,15 +16,17 @@ const Builds = () => {
       <Card.Header>
         <h2>
           <WrenchEmoji />
-          Builds
+          Builders
         </h2>
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          <SwordEmoji/> <WorkerEmoji/> [{workers.sword} working...]
+          <SwordEmoji/> <WorkerEmoji/> 
+          [{workers.state === "All finished" ? workers.state : workers.sword + " " + workers.state}]
         </Card.Text>
         <Card.Text>
-          <ShieldEmoji/> <WorkerEmoji/> [{workers.shield} working...]
+          <ShieldEmoji/> <WorkerEmoji/> 
+          [{workers.state === "All finished" ? workers.state : workers.shield + " " + workers.state}]
         </Card.Text>
       </Card.Body>
     </Card>

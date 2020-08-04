@@ -13,6 +13,7 @@ const BowEmoji = () => <Twemoji emoji="🏹" />
 const SleepingEmoji = () => <Twemoji emoji="🛌" />
 const WrenchEmoji = () => <Twemoji emoji="🔧" />
 const AxeEmoji = () => <Twemoji emoji="🪓" />
+const MedalEmoji = () => <Twemoji emoji="🥇" />
 
 export default Twemoji;
 
@@ -29,4 +30,5 @@ export {
   SleepingEmoji,
   WrenchEmoji,
   AxeEmoji,
+  MedalEmoji,
 }

@@ -7,6 +7,7 @@ import {
   StoneEmoji,
   ShieldEmoji,
   SwordEmoji,
+  MedalEmoji,
 } from '../../emojis';
 
 const Warehouse = () => {
@@ -26,11 +27,11 @@ const Warehouse = () => {
           Wood: {warehouse.wood}
         </Card.Text>
         <Card.Text>
-          <StoneEmoji />
+        <StoneEmoji />
           Stone: {warehouse.stone}
         </Card.Text>
         <Card.Text>
-          <StoneEmoji />
+          <MedalEmoji />
           Gold: {warehouse.gold}
         </Card.Text>
         <Card.Text>

@@ -32,7 +32,21 @@ const finishGather = (state, data) => {
       ...state.info,
       jobsFinished: state.info.jobsFinished + 1,
       jobsInProgress: state.info.jobsInProgress - 1
+    },
+    resources: {
+      ...state.resources,
+      [material]: state.resources[material] - 1
     }
+  };
+}
+
+const finishAllGatherers = (state, data) => {
+  return {
+    ...state,
+    gatherers: {
+      ...state.gatherers,
+      state: "All finished"
+    },
   };
 }
 
@@ -97,6 +111,20 @@ const failBuild = (state, data) => {
   };
 }
 
+const finishAllBuilders = (state, data) => {
+  return {
+    ...state,
+    workers: {
+      ...state.workers,
+      state: "All finished"
+    },
+    info: {
+      ...state.info,
+      done: true
+    }
+  };
+}
+
 const addWorkers = (state, data) => {
   const [ amount ] = data
   return {
@@ -119,15 +147,28 @@ const addGatherers = (state, data) => {
   }
 }
 
+const addResources = (state, data) => {
+  const [ material, amount ] = data
+  return {
+    ...state,
+    resources: {
+      ...state.resources,
+      [material]: state.resources[material] + Number(amount)
+    }
+  }
+}
+
 const initialState = {
   gatherers: {
     wood: 0,
     stone: 0,
     gold: 0,
+    state: "Working...",
   },
   workers: {
     sword: 0,
     shield: 0,
+    state: "Working...",
   },
   warehouse: {
     wood: 0,
@@ -141,6 +182,12 @@ const initialState = {
     jobsFinished: 0,
     totalGatherers: 0,
     totalWorkers: 0,
+    done: false,
+  },
+  resources: {
+    wood: 0,
+    stone: 0,
+    gold: 0,
   }
 }
 
@@ -148,10 +195,13 @@ const reducerActions = {
   [MESSAGES.START_BUILD]: startBuild,
   [MESSAGES.FINISHED_BUILD]: finishBuild,
   [MESSAGES.FAIL_BUILD]: failBuild,
+  [MESSAGES.FINISH_ALL_BUILDERS]: finishAllBuilders,
   [MESSAGES.START_GATHER]: startGather,
   [MESSAGES.FINISHED_GATHER]: finishGather,
-  [MESSAGES.NEW_WORKERS]: addWorkers,
+  [MESSAGES.FINISH_ALL_GATHERERS]: finishAllGatherers,
+  [MESSAGES.NEW_BUILDERS]: addWorkers,
   [MESSAGES.NEW_GATHERERS]: addGatherers,
+  [MESSAGES.NEW_RESOURCES]: addResources,
 }
 
 const reducer = (state = initialState, action) => {

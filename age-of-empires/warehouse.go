@@ -58,8 +58,6 @@ func (warehouse *Warehouse) Listen() {
 					}
 				}
 				useOp.ok <- ok
-			case getOp := <-warehouse.getOp:
-				getOp.resp <- resources
 			}
 		}
 	}()
@@ -82,11 +80,4 @@ func (warehouse *Warehouse) Use(materials map[string]int) bool {
 	}
 	warehouse.useOp <- useOp
 	return <-useOp.ok
-}
-
-// GetAll devuelve los recursos del warehouse
-func (warehouse *Warehouse) GetAll() Resources {
-	getOp := getResources{resp: make(chan Resources)}
-	warehouse.getOp <- getOp
-	return <-getOp.resp
 }

@@ -10,7 +10,7 @@ func produce(rawResource chan<- int, material string) {
 	go func() {
 		for _, amount := range materials {
 			for i := 0; i < amount; i++ {
-				websockets.ShowMessage("New resources discovered! %v %v(s)", amount, material)
+				websockets.ShowMessage("NEW_RESOURCES %v %v", material, 1)
 				rawResource <- 1
 			}
 		}
