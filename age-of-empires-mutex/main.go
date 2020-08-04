@@ -1,20 +1,19 @@
 package main
 
 import (
-	"ageofempires/websockets"
 	"fmt"
-	"log"
+	"os"
 	"sync"
 	"time"
+
+	"ageofempires/websockets"
 )
 
-// Resource para los recursos
 type Resource struct {
 	Name      string
 	Gatherers int
 }
 
-// Weapon para las armas
 type Weapon struct {
 	Name      string
 	Builders  int
@@ -22,50 +21,53 @@ type Weapon struct {
 }
 
 func main() {
-	start := time.Now()
+	websockets.Init(startGame)
+}
+
+func startGame() {
+	// Cargamos configuracion
 	resources, weapons, err := loadConfig()
 	if err {
 		fmt.Println("Fatal error. Exiting...")
 		return
 	}
 
-	// Warehouse guarda los recursos ya listos para usar
+	// Creamos warehouse
 	warehouse := MakeWarehouse()
 
-	// Por cada recurso generamos un "producer" y múltiples "consumers".
-	// Los producers envian por el canal del recurso los recursos disponibles "en el mapa"
-	// Los consumers "cosechan" esos recursos y los agregan al warehouse
+	// Generamos recursos y recolectores
 	var gatherersWaitGroups []*sync.WaitGroup
 	for _, resource := range resources {
+		websockets.SendMessage("NEW_GATHERERS %v", resource.Gatherers)
 		resourceWaitGroup := produceAndConsumeResource(resource, warehouse)
 		gatherersWaitGroups = append(gatherersWaitGroups, resourceWaitGroup)
 	}
 
 	buildersWaitGroup := &sync.WaitGroup{}
 
-	// Generamos constructores que toman recursos del warehouse y los transforman en escudos y espadas
+	// Generamos constructores
 	for _, weapon := range weapons {
 		builders := weapon.Builders
+		websockets.SendMessage("NEW_BUILDERS %v", builders)
 		for i := 0; i < builders; i++ {
 			buildersWaitGroup.Add(1)
-			build(warehouse, buildersWaitGroup, weapon, i+1)
+			build(warehouse, buildersWaitGroup, weapon)
 		}
 	}
 
-	websockets.Init()
-
-	// Esperamos que los consumers (gatherers) terminen de cosechar recursos y les avisamos a los builders
+	// Esperamos que los recolectores terminen
 	for _, wg := range gatherersWaitGroups {
 		wg.Wait()
 	}
-	websockets.ShowMessage("All gatherers finished")
+	websockets.SendMessage("FINISH_ALL_GATHERERS")
 	warehouse.done = true
-	// Esperamos que los builders terminen y mostramos los recursos finales
-	buildersWaitGroup.Wait()
 
-	fmt.Println(warehouse.GetAll())
-	elapsed := time.Since(start)
-	log.Printf("Program took %s", elapsed)
+	// Esperramos que los constructores terminen
+	buildersWaitGroup.Wait()
+	websockets.SendMessage("FINISH_ALL_BUILDERS")
+
+	time.Sleep(5 * time.Second)
+	os.Exit(0)
 }
 
 func loadConfig() (resources []Resource, weapons []Weapon, err bool) {
@@ -81,6 +83,7 @@ func loadConfig() (resources []Resource, weapons []Weapon, err bool) {
 	return
 }
 
+// Por cada recurso se crea un canal por el cual los recolectores obtienen los recursos
 func produceAndConsumeResource(resource Resource, warehohuse *Warehouse) *sync.WaitGroup {
 	resourceChannel := make(chan int, 20)
 
@@ -89,7 +92,7 @@ func produceAndConsumeResource(resource Resource, warehohuse *Warehouse) *sync.W
 
 	produce(resourceChannel, resource.Name)
 	for i := 0; i < resource.Gatherers; i++ {
-		consume(resourceChannel, wg, warehohuse, resource.Name, i+1)
+		consume(resourceChannel, wg, warehohuse, resource.Name)
 	}
 
 	return wg

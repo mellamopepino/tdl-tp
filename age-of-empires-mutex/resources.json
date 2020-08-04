@@ -1,14 +1,14 @@
 [
   {
     "name": "stone",
-    "gatherers": 2
+    "gatherers": 100
   },
   {
     "name": "gold",
-    "gatherers": 2
+    "gatherers": 100
   },
   {
     "name": "wood",
-    "gatherers": 2
+    "gatherers": 100
   }
 ]

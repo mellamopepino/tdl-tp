@@ -2,24 +2,25 @@ package main
 
 import (
 	"ageofempires/websockets"
+	"math/rand"
 	"sync"
 	"time"
 )
 
-// Busca recursos en el warehouse y construye cosas
+// Busca recursos en el warehouse y construye armas
 // Si no puede construir por falta de recursos y los recolectores terminaron, termina
-func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon, id int) {
+func build(warehouse *Warehouse, wg *sync.WaitGroup, weapon Weapon) {
 	go func() {
 		defer wg.Done()
 		for {
-			websockets.ShowMessage("Builder number %v is trying to build %v", id, weapon.Name)
 			ok := warehouse.Use(weapon.Materials)
 			if ok {
-				time.Sleep(3 * time.Second) // Working...
-				websockets.ShowMessage("Builder number %v finished building %v", id, weapon.Name)
+				websockets.SendMessage("START_BUILD %v %v", weapon.Name, weapon.Materials)
+				time.Sleep(time.Duration(rand.Intn(5)+5) * time.Second) // Working...
+				websockets.SendMessage("FINISHED_BUILD %v %v", weapon.Name, weapon.Materials)
 				warehouse.Add(weapon.Name, 1)
 			} else {
-				websockets.ShowMessage("Builder number %v couldn't build %v", id, weapon.Name)
+				websockets.SendMessage("FAIL_BUILD %v", weapon.Name)
 				if warehouse.done {
 					return
 				}
