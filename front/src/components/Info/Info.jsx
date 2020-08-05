@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Row, Col } from 'react-bootstrap'
+import { Alert, Row, Col, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux';
 import {
   FarmerEmoji,
@@ -8,8 +8,9 @@ import {
 
 let finalTime = 0
 let done = false
+let started = false
 
-const Info = () => {
+const Info = (start) => {
   const info = useSelector((state) => state.info)
   const [time, setTime] = useState(0);
 
@@ -21,7 +22,16 @@ const Info = () => {
     return () => clearInterval(interval)
   }, [])
 
+  function startWebSocket() {
+    start.start()
+    setTime(0)
+    started = true
+  }
+
  function renderTimer() {
+   if (!started) {
+     return 0
+   }
    if (done) {
      return finalTime
    }
@@ -57,6 +67,7 @@ const Info = () => {
           </p>
         </Col>
       </Row>
+      <Button variant="primary" style={{marginLeft: "130px"}} onClick={startWebSocket}>Start</Button>
     </Alert>
   )
 }

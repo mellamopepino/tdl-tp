@@ -7,10 +7,13 @@ import getAction from './store/actions'
 
 function App() {
   const dispatch = useDispatch()
-  const ws = new WebSocket("ws://127.0.0.1:8080/send");
+  let ws = null
 
-  ws.onmessage = (e) => {
-    dispatch(getAction(e.data))
+  function startWebSocket(){
+    ws = new WebSocket("ws://127.0.0.1:8080/send");
+    ws.onmessage = (e) => {
+      dispatch(getAction(e.data))
+    }
   }
 
   return (
@@ -34,7 +37,7 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <Info />
+          <Info start={startWebSocket} />
         </Col>
       </Row>
     </Container>
