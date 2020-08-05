@@ -192,7 +192,8 @@ const initialState = {
     totalWorkers: 0,
     done: false,
     totalTime: null,
-    failedBuilds: 0
+    failedBuilds: 0,
+    status: "Standing by"
   },
   resources: {
     wood: 0,

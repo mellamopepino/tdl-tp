@@ -25,6 +25,8 @@ func main() {
 }
 
 func startGame() {
+	start := time.Now()
+
 	// Cargamos configuracion
 	resources, weapons, err := loadConfig()
 	if err {
@@ -65,6 +67,9 @@ func startGame() {
 	// Esperramos que los constructores terminen
 	buildersWaitGroup.Wait()
 	websockets.SendMessage("FINISH_ALL_BUILDERS")
+
+	elapsed := time.Since(start)
+	websockets.SendMessage("TOTAL_TIME %v", elapsed)
 
 	time.Sleep(5 * time.Second)
 	os.Exit(0)

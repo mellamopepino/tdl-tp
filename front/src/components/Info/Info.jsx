@@ -11,6 +11,7 @@ const Info = ({ start }) => {
 
   function startWebSocket() {
     start()
+    info.status = "Working..."
   }
 
   return (
@@ -18,7 +19,7 @@ const Info = ({ start }) => {
       <Row>
         <Col md={6} className="d-flex flex-column justify-content-around align-items-center">
           <h1 className="align-self-center">
-            {info.totalTime && `Time: ${info.totalTime}` || `Working...`}
+            {info.totalTime && `Time: ${info.totalTime}` || info.status}
           </h1>
           <Button variant="primary" onClick={startWebSocket}>Start</Button>
         </Col>
