@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Alert, Row, Col, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux';
 import {
@@ -6,50 +6,21 @@ import {
   WorkerEmoji,
 } from '../../emojis/'
 
-let finalTime = 0
-let done = false
-let started = false
-
-const Info = (start) => {
+const Info = ({ start }) => {
   const info = useSelector((state) => state.info)
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((time) => time + 1)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
 
   function startWebSocket() {
-    start.start()
-    setTime(0)
-    started = true
+    start()
   }
 
- function renderTimer() {
-   if (!started) {
-     return 0
-   }
-   if (done) {
-     return finalTime
-   }
-   if (info.done) {
-     done = true
-     finalTime = time
-     return finalTime
-   }
-   return time
- }
-  
   return (
     <Alert variant="info">
       <Row>
-        <Col className="d-flex justify-content-center">
+        <Col md={6} className="d-flex flex-column justify-content-around align-items-center">
           <h1 className="align-self-center">
-            Time {renderTimer()}
+            {info.totalTime && `Time: ${info.totalTime}` || `Working...`}
           </h1>
+          <Button variant="primary" onClick={startWebSocket}>Start</Button>
         </Col>
         <Col className="mx-2">
           <h4>Jobs</h4>
@@ -67,7 +38,6 @@ const Info = (start) => {
           </p>
         </Col>
       </Row>
-      <Button variant="primary" style={{marginLeft: "130px"}} onClick={startWebSocket}>Start</Button>
     </Alert>
   )
 }

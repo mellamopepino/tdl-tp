@@ -155,6 +155,17 @@ const addResources = (state, data) => {
   }
 }
 
+const setTotalTime = (state, data) => {
+  const [ totalTime ] = data
+  return {
+    ...state,
+    info: {
+      ...state.info,
+      totalTime,
+    }
+  }
+}
+
 const initialState = {
   gatherers: {
     wood: 0,
@@ -180,6 +191,7 @@ const initialState = {
     totalGatherers: 0,
     totalWorkers: 0,
     done: false,
+    totalTime: null,
     failedBuilds: 0
   },
   resources: {
@@ -200,6 +212,7 @@ const reducerActions = {
   [MESSAGES.NEW_BUILDERS]: addWorkers,
   [MESSAGES.NEW_GATHERERS]: addGatherers,
   [MESSAGES.NEW_RESOURCES]: addResources,
+  [MESSAGES.TOTAL_TIME]: setTotalTime,
 }
 
 const reducer = (state = initialState, action) => {
