@@ -1,80 +1,52 @@
 package main
 
+import (
+	"sync"
+)
+
+// Resources representa los recursos guardados. Usamos un mapa que mapea strings a ints
 type Resources map[string]int
 
-type addResources struct {
-	material string
-	amount   int
-}
-
-type useResources struct {
-	materials map[string]int
-	ok        chan bool
-}
-
-type getResources struct {
-	resp chan Resources
-}
-
+// Warehouse estructura que guarda los recursos
 type Warehouse struct {
-	addOp chan addResources
-	useOp chan useResources
-	getOp chan getResources
-	done  bool
+	resources Resources
+	m         sync.Mutex
+	done      bool
 }
 
+// MakeWarehouse es una función auxiliar que crea warehouses
 func MakeWarehouse() *Warehouse {
-	warehouse := Warehouse{
-		addOp: make(chan addResources),
-		useOp: make(chan useResources),
-		getOp: make(chan getResources),
-		done:  false,
-	}
+	warehouse := Warehouse{Resources{}, sync.Mutex{}, false}
 	return &warehouse
 }
 
-// Goroutine dueña del estado del warehouse
-func (warehouse *Warehouse) Listen() {
-	go func() {
-		var resources = make(Resources)
-		for {
-			select {
-			case addOp := <-warehouse.addOp:
-				resources[addOp.material] += addOp.amount
-			case useOp := <-warehouse.useOp:
-				ok := true
-				for material, amount := range useOp.materials {
-					if resources[material] < amount {
-						ok = false
-						break
-					}
-				}
-				if ok {
-					for material, amount := range useOp.materials {
-						resources[material] -= amount
-					}
-				}
-				useOp.ok <- ok
-			}
-		}
-	}()
-}
-
-// Function receiver para agregar cosas al warehouse
+// Add agrega recursos al warehouse
 func (warehouse *Warehouse) Add(material string, amount int) {
-	addOp := addResources{
-		material: material,
-		amount:   amount,
-	}
-	warehouse.addOp <- addOp
+	defer warehouse.m.Unlock()
+	warehouse.m.Lock()
+	warehouse.resources[material] += amount
 }
 
-// Function receiver para usar recursos del warehouse
+// Use resta recursos al warehouse (si están disponibles)
 func (warehouse *Warehouse) Use(materials map[string]int) bool {
-	useOp := useResources{
-		materials: materials,
-		ok:        make(chan bool),
+	defer warehouse.m.Unlock()
+	warehouse.m.Lock()
+	ok := true
+	for material, amount := range materials {
+		if warehouse.resources[material] < amount {
+			ok = false
+			break
+		}
 	}
-	warehouse.useOp <- useOp
-	return <-useOp.ok
+	if ok {
+		for material, amount := range materials {
+			warehouse.resources[material] -= amount
+		}
+	}
+	return ok
+}
+
+// GetAll devuelve los recursos del warehouse
+func (warehouse *Warehouse) GetAll() Resources {
+	return warehouse.resources
 }

@@ -36,7 +36,6 @@ func startGame() {
 
 	// Creamos warehouse
 	warehouse := MakeWarehouse()
-	warehouse.Listen()
 
 	// Generamos recursos y recolectores
 	var gatherersWaitGroups []*sync.WaitGroup
