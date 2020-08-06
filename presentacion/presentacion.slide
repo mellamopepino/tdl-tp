@@ -198,16 +198,7 @@ Formas de sincronizacion/comunicación:
 
 Un poco de código:
 
-//.code examples/integrador.go /START OMIT/,/END OMIT/
-.play examples/integrador.go /START OMIT/,/END OMIT/
-
-//////////////////////////////////////////////////
-
-## Ejemplo básico 2
-
-Un poco de código:
-
-.play examples/waitgroup.go /START OMIT/,/END OMIT/
+.play examples/intro/ejemplos.go /START OMIT/,/END OMIT/
 
 //////////////////////////////////////////////////
 
