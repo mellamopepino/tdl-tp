@@ -290,18 +290,18 @@ Con 300 requests, podemos observar que Go es más veloz que los otros lenguajes.
 
 //////////////////////////////////////////////////
 
-## Según la encuesta de StackOverflow 2019:
+## Según la encuesta de StackOverflow 2020:
 
 La gente que programa en Go recibe el tercer mejor salario en todo el mundo:
 
 .image images/highest-salary-global.png
 
 
-Total de encuestados: 88,883 desarrolladores de 179 países.
+Total de encuestados: 65.000 desarrolladores de 186 países.
 
 //////////////////////////////////////////////////
 
-## Según la encuesta de StackOverflow 2019:
+## Según la encuesta de StackOverflow 2020:
 
 Go es el quinto lenguaje de programación más amado:
 
@@ -309,9 +309,9 @@ Go es el quinto lenguaje de programación más amado:
 
 //////////////////////////////////////////////////
 
-## Según la encuesta de StackOverflow 2019:
+## Según la encuesta de StackOverflow 2020:
 
-Go es 3er lenguaje más interesante para aprender:
+Go es tercer lenguaje más interesante para aprender:
 
 .image images/wanted.png
 
