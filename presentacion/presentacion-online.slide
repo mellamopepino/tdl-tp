@@ -1,7 +1,18 @@
 Introducción a Go
 Teoría de Lenguajes
 
-##################################################
+#########################
+
+* Integrantes
+
+- Joaquín Casal
+- Delfina García Villamor
+- Lucía Kasman
+- Franco Daniel Schischlo
+
+.image images/gopher.gif
+
+#########################
 
 * Características generales
 
@@ -11,14 +22,13 @@ Teoría de Lenguajes
 - *Tipado*: estático e inferido (duck typing)
 - Compilado
 - Tiene garbage collector
-- TDAs:
+- Pasaje por valor
 
-        - Abierto para el mismo paquete, cerrado para paquetes distintos
-        - Con estado
-        - Empaquetado y no empaquetado
-- Pasaje por valor y por referencia (dependiendo el tipo de dato)
+_“Go_ _is_ _statically_ _typed_ _and_ _compiled,_ _like_ _C++_ _or_ _Java,_ _but_ _in_ _many_ _ways_ _feels_ _as_ _lightweight_ _and_ _dynamic_ _as_ _JavaScript_ _or_ _Python.”_
 
-##################################################
+.play examples/hello.go /START OMIT/,/END OMIT/
+
+#########################
 
 * Nacimiento y motivación
 
@@ -28,7 +38,7 @@ Buscaban alivianar problemas comunes en su desarrollo.
 
 Como los *builds* lentos y la falta de *escalabilidad*.
 
-##################################################
+#########################
 
 * Nacimiento y motivación
 
@@ -36,7 +46,7 @@ Y entre compilación y compilación...
 
 .image images/my-codes-compiling.png
 
-##################################################
+#########################
 
 * Nacimiento y motivación
 
@@ -48,13 +58,13 @@ Llegaron a un lenguaje:
 
 .image images/gopher-sixpack.png
 
-##################################################
+#########################
 
 * Características Core
 
 Se destaca por:
 - *Simpleza*: Sintaxis fácil de aprender y features necesarios.
-- *Concurrencia**: Uso de _goroutines_ y _channels_.
+- *Concurrencia*: Uso de _goroutines_ y _channels_.
 - *Garbage* *collector*
 - *Velocidad* *de* *compilación* *y* *ejecución*
 - *Biblioteca* *estándar*: Extensa y completa (bien documentada)
@@ -62,7 +72,7 @@ Se destaca por:
 
 entre otros...
 
-##################################################
+#########################
 
 * Características Core
 
@@ -70,7 +80,7 @@ Simple puede ser expresivo...
 
 .image images/simplicity.png 400 700
 
-##################################################
+#########################
 
 * Características Core
 
@@ -78,7 +88,7 @@ Un poco de sintaxis y tipos de datos...
 
 .image images/technic.png
 
-##################################################
+#########################
 
 * Características Core
 
@@ -86,17 +96,17 @@ Set de keywords:
 
 .image images/keywords.png
 
-(Dato de color: son 25, C tiene 32, y C++ 95….)
+(Dato de color: son 25, C tiene 32, y C++ 95…)
 
 Set de operadores y puntuación:
 
 .image images/operators.png
 
-##################################################
+#########################
 
 * Características Core
 
-*Tipos* *de* *datos* *básicos*:
+*Tipos* *de* *datos* *básicos:*
 
 - int  int8  int16  int32  int64
 - uint uint8 uint16 uint32 uint64 uintptr
@@ -107,11 +117,11 @@ Set de operadores y puntuación:
 - byte // alias de uint8
 - rune // alias de int32 - unicode code point
 
-##################################################
+#########################
 
 * Características Core
 
-*Tipos* *de* *datos* *(continuación)*:
+*Tipos* *de* *datos* *(continuación):*
 
 Otros:
 
@@ -123,13 +133,14 @@ Otros:
 - map
 
 entre otros...
-##################################################
+
+#########################
 
 * Características Core
 
-*Inicialización* *de* *variables*:
+*Inicialización* *de* *variables:*
 
-Las variables, si no se les define un valor al declararlas, se las inicializa con un valor (a esto se lo llama _Zero_ _Value_ _Initialization_)
+Las variables, si no se les define un valor al declararlas, se las inicializa con un valor por defecto (a esto se lo llama _Zero_ _Value_ _Initialization_)
 
 - *0* para enteras
 - *0.0* para punto flotante
@@ -137,7 +148,7 @@ Las variables, si no se les define un valor al declararlas, se las inicializa co
 - *""* para string
 - *nil* para interfaces, slices, channels, maps, punteros y funciones.
 
-##################################################
+#########################
 
 * Características Core
 
@@ -145,14 +156,14 @@ Las variables, si no se les define un valor al declararlas, se las inicializa co
 
 .image images/interface.png 400 500
 
-##################################################
+#########################
 
 * Características Core
 
 - Una interfaz es una colección de firmas de métodos, es decir, son declaraciones de métodos sin cuerpo, cuyo comportamiento está dado por quien los implemente (de forma implicita)
 - Extensamente usadas en la standard library.
 
-##################################################
+#########################
 
 * Características Core
 
@@ -160,7 +171,7 @@ Las variables, si no se les define un valor al declararlas, se las inicializa co
 
 .image images/goroutines.png
 
-##################################################
+#########################
 
 * Características Core
 
@@ -174,8 +185,9 @@ Formas de sincronizacion/comunicación:
 
 - channels
 - sync.WaitGroup
+- sync.Mutex
 
-##################################################
+#########################
 
 * Características Core
 
@@ -184,40 +196,21 @@ Formas de sincronizacion/comunicación:
 - Es un tipo de dato que nos permite enviar y recibir datos a través de él.
 - Son bloqueantes, salvo si se les pasa una capacidad al momento de crearlos (en cuyo caso se bloquean al estar llenos, o vacios)
 
-_Creación_:
+#########################
 
-	                llamada := make(chan string)
-
-_Envío_:
-
-	                llamada <- "Hola, buen dia"
-
-_Recepción_: (el ok se utiliza para chequear el estado del canal)
-
-	                saludo, ok = <- llamada
-
-_Cerrar_ _channel_:
-
-	                close(llamada)
-
-##################################################
-
-* Ejemplo basico
+* Ejemplo básico
 
 Un poco de código:
 
-##.code examples/integrador.go /START OMIT/,/END OMIT/
-.play examples/integrador.go /START OMIT/,/END OMIT/
+.play examples/intro/ejemplos.go /START OMIT/,/END OMIT/
 
-##################################################
+#########################
 
-* Ejemplo basico 2
+* Ejemplo integrador
 
-Un poco de código:
+.image images/aoe.png
 
-.play examples/waitgroup.go /START OMIT/,/END OMIT/
-
-##################################################
+#########################
 
 * Caso de estudio: Mercadolibre
 
@@ -232,7 +225,7 @@ Además de la plataforma de compra y venta, tiene otros servicios (entre ellos, 
 
 .image images/gomeli.jpg
 
-##################################################
+#########################
 
 * Un poco de historia...
 
@@ -244,7 +237,7 @@ Si bien Groovy tiene a su favor que corre sobre la JVM de Java, Mercadolibre ten
 - Tiempos de tests lentos
 - Tiempos de despliegue lentos
 
-##################################################
+#########################
 
 * ¿Por qué usan Go en Mercadolibre?
 
@@ -266,7 +259,7 @@ Go hace un eficiente uso de recursos, lo cual permite mantener el mismo servicio
 
 *Bonus* *track*: Mercadolibre usa *Docker* (otra herramienta hecha en Go) para desplegar sus servicios escritos en Go.
 
-##################################################
+#########################
 
 * Otros proyectos que usan Go
 
@@ -282,7 +275,7 @@ Go hace un eficiente uso de recursos, lo cual permite mantener el mismo servicio
 
 .link https://github.com/golang/go/wiki/GoUsers
 
-##################################################
+#########################
 
 * Estadísticas 
 
@@ -291,7 +284,7 @@ Comparación entre Go y Java para calcular un factorial:
 .image images/comparison-factorial.png
 
 
-##################################################
+#########################
 
 * Para un programa que lee un archivo de 64k, corre un hash SHA-256 1000 veces:
 
@@ -299,40 +292,38 @@ Comparación entre Go y Java para calcular un factorial:
 
 Con 300 requests, podemos observar que Go es más veloz que los otros lenguajes.
 
-##################################################
+#########################
 
-* Según la encuesta de StackOverflow 2019:
+* Según la encuesta de StackOverflow 2020:
 
 La gente que programa en Go recibe el tercer mejor salario en todo el mundo:
 
 .image images/highest-salary-global.png
 
 
-Total de encuestados: 88,883 desarrolladores de 179 países.
+Total de encuestados: 88,883 desarrolladores de 186 países.
 
-##################################################
+#########################
 
-* Según la encuesta de StackOverflow 2019:
+* Según la encuesta de StackOverflow 2020:
 
 Go es el quinto lenguaje de programación más amado:
 
 .image images/loved.png
 
-##################################################
+#########################
 
-* Según la encuesta de StackOverflow 2019:
+* Según la encuesta de StackOverflow 2020:
 
-Go es 3er lenguaje más interesante para aprender:
+Go es el 3er lenguaje más interesante para aprender:
 
 .image images/wanted.png
 
-##################################################
+#########################
 
 * Conclusiones
 
-##################################################
-
-*  
+#########################
 
 Vimos que Go es bueno en cuanto a:
 
@@ -345,9 +336,9 @@ Vimos que Go es bueno en cuanto a:
 
 Entonces...
 
-##################################################
+#########################
 
-*  
+* 
 
 *Cuando* *usar* *Go*
 
@@ -359,18 +350,19 @@ Entonces...
 
 - Aplicaciones con interfaz gráfica
 - Aplicaciones orientadas a objetos
-- Otras cosas que Go no se banca
 
-##################################################
+#########################
 
 * Referencias
 
-.link golang.org
-.link golang.org/doc
-.link blog.golang.org
-.link talks.golang.org
-.link tour.golang.org
-.link github.com/golang/go/wiki
-.link https://go.dev/solutions/mercadolibre/
-.link https://github.com/mercadolibre/golang-tutorial-public
-.link https://ideas.mercadolibre.com/ar/noticias/historia-de-mercado-libre/
+.link golang.org Página oficial
+.link golang.org/doc Documentación oficial
+.link blog.golang.org Blog oficial
+.link talks.golang.org Charlas oficiales
+.link tour.golang.org Tour inicial del lenguaje
+.link github.com/golang/go/wiki Wiki oficial
+.link https://go.dev/solutions/mercadolibre/ Info sobre Mercadolibre y Go
+.link https://github.com/mercadolibre/golang-tutorial-public Charlas de Mercadolibre sobre Go
+.link https://ideas.mercadolibre.com/ar/noticias/historia-de-mercado-libre/ Métricas de Mercadolibre
+.link https://insights.stackoverflow.com/survey/2020 Encuesta de StackOverflow
+.link https://github.com/mellamopepino/tdl-tp Nuestro repo (proyecto integrador + otros ejemplos)
